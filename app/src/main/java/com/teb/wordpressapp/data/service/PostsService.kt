@@ -7,5 +7,7 @@ import retrofit2.Call
 interface PostsService {
 
     @GET("wp-json/wp/v2/posts/")
-    fun getPosts(): Call<List<PostItem>?>?
+    fun getPosts(): Call<List<PostItem>?>
+
+
 }
