@@ -1,6 +1,7 @@
 package com.teb.wordpressapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,10 @@ class MainActivity : BaseActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
+
+        adapter.postItemTitleClickListener = { postItem ->
+            Log.d("ahmet", "Clicked: " + postItem.title())
+        }
 
         progressBar = findViewById(R.id.progressBar)
 

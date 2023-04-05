@@ -7,8 +7,12 @@ data class PostItem(
     val title : PostItemTitle?,
     val yoast_head_json : YoastHeadJson?
 ) {
-    fun renderedTitle(): String {
-        return title?.rendered ?: ""
+    fun title(): String {
+        return yoast_head_json?.title ?: ""
+    }
+
+    fun description(): String {
+        return yoast_head_json?.description ?: ""
     }
 
     fun imageUrl(): String {
@@ -21,7 +25,9 @@ data class PostItemTitle(
 )
 
 data class YoastHeadJson(
-    val og_image : List<OgImage?>?
+    val og_image : List<OgImage?>?,
+    val title : String?,
+    val description: String?
 )
 
 data class OgImage(
