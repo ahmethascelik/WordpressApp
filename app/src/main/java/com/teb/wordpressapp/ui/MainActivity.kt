@@ -10,18 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
+import com.teb.wordpressapp.databinding.ActivityMainBinding
 
 
 class MainActivity : BaseActivity() {
 
-    lateinit var progressBar: ProgressBar
+    private lateinit var binding: ActivityMainBinding
 
     val service = ServiceLocator.providePostService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
 
         initViews()
@@ -33,9 +36,9 @@ class MainActivity : BaseActivity() {
     val adapter = PostItemsAdapter()
 
     private fun initViews() {
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
         adapter.postItemTitleClickListener = { postItem ->
             val i = Intent(this@MainActivity, PostDetailActivity::class.java)
@@ -43,13 +46,12 @@ class MainActivity : BaseActivity() {
             startActivity(i)
         }
 
-        progressBar = findViewById(R.id.progressBar)
 
         defaultLoadingCallback = { isLoading ->
             if (isLoading) {
-                progressBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             } else {
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
 

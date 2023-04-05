@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.squareup.picasso.Picasso
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.data.ServiceLocator
+import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
 
 
 class PostDetailActivity : BaseActivity() {
@@ -21,7 +22,8 @@ class PostDetailActivity : BaseActivity() {
         const val EXTRA_POST_ID: String = "EXTRA_POST_ID"
     }
 
-    lateinit var webView: WebView
+    private lateinit var binding: ActivityPostDetailBinding
+
     val service = ServiceLocator.providePostService()
 
     lateinit var postId : String
@@ -29,7 +31,8 @@ class PostDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_post_detail)
+        binding = ActivityPostDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         postId = intent.getStringExtra(EXTRA_POST_ID)!!
 
@@ -40,51 +43,47 @@ class PostDetailActivity : BaseActivity() {
 
 
     private fun initViews() {
-        val progressBar : ProgressBar = findViewById(R.id.progressBar)
+
         defaultLoadingCallback = { isLoading ->
             if(isLoading){
-                progressBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             }else{
-                progressBar.visibility = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
 
-         webView = findViewById(R.id.webView)
     }
 
     private fun makeInitialRequest() {
 
-        val imageView = findViewById<ImageView>(R.id.headerImage)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
 
         service.getPostWithId(postId).makeCall { postDetail->
 
-            toolbar.setTitle(postDetail.title())
-            Picasso.get().load(postDetail.imageUrl()).into(imageView)
+            binding.toolbar.setTitle(postDetail.title())
+            Picasso.get().load(postDetail.imageUrl()).into(binding.headerImage)
 
 
             val content = postDetail.content()
 
             val htmlContent = content;//"<html><body>" + postDetail.content()+ "</body></html>"
 
-            webView.setWebViewClient(WebViewClient())
-            webView.setInitialScale(1);
-            webView.getSettings().setJavaScriptEnabled(true)
-            webView.getSettings().setDefaultFontSize(12)
-            webView.getSettings().setLoadWithOverviewMode(true);
-            webView.getSettings().setUseWideViewPort(true);
-            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
-            webView.getSettings().setPluginState(WebSettings.PluginState.ON)
-            webView.getSettings().setMediaPlaybackRequiresUserGesture(false)
+            binding.webView.setWebViewClient(WebViewClient())
+            binding.webView.setInitialScale(1);
+            binding.webView.getSettings().setJavaScriptEnabled(true)
+            binding.webView.getSettings().setDefaultFontSize(12)
+            binding.webView.getSettings().setLoadWithOverviewMode(true);
+            binding.webView.getSettings().setUseWideViewPort(true);
+            binding.webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
+            binding.webView.getSettings().setPluginState(WebSettings.PluginState.ON)
+            binding.webView.getSettings().setMediaPlaybackRequiresUserGesture(false)
 
-            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            binding.webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+            binding.webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 
-            webView.settings.setGeolocationEnabled(false);
+            binding.webView.settings.setGeolocationEnabled(false);
 
-            webView.setWebChromeClient(WebChromeClient())
-            webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+            binding.webView.setWebChromeClient(WebChromeClient())
+            binding.webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
 
         }
 
