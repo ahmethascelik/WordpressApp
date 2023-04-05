@@ -1,22 +1,18 @@
 package com.teb.wordpressapp.ui
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
-import com.teb.wordpressapp.data.service.PostsService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainActivity : Activity() {
+class MainActivity : BaseActivity() {
+
+    lateinit var progressBar: ProgressBar
 
     val service = ServiceLocator.providePostService()
 
@@ -39,36 +35,28 @@ class MainActivity : Activity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
+        progressBar = findViewById(R.id.progressBar)
+
+        defaultLoadingCallback = { isLoading ->
+            if (isLoading) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.GONE
+            }
+        }
+
+
     }
+
 
     private fun makeInitialRequests() {
 
-
-        service.getPosts().enqueue(object : Callback<List<PostItem>?>{
-            override fun onResponse(
-                call: Call<List<PostItem>?>,
-                response: Response<List<PostItem>?>,
-            ) {
-
-                var list = response.body()
-
-                list?.let {
-                    adapter.setDataList(it)
-                }
-
-                Log.d("ahmet", "success")
-
-            }
-
-            override fun onFailure(call: Call<List<PostItem>?>, t: Throwable) {
-                Log.d("ahmet", "fail")
-
-            }
-
-        })
-
+        service.getPosts().makeCall { result: List<PostItem>? ->
+            adapter.setDataList(result!!)
+        }
 
     }
+
 
 
 }
