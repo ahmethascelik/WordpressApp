@@ -2,6 +2,7 @@ package com.teb.wordpressapp.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import com.google.gson.JsonSyntaxException
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.ui.util.ConnectionUtil
 import retrofit2.Call
@@ -10,6 +11,7 @@ import retrofit2.Response
 import java.lang.RuntimeException
 
 typealias LoadingCallback = (isLoading: Boolean) -> Unit
+typealias TryAgainCallback = () -> Unit
 
 open class BaseActivity : Activity() {
 
@@ -18,9 +20,10 @@ open class BaseActivity : Activity() {
 
     fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
 
-        if(defaultLoadingCallback != null){
-            this.makeCall(toggleLoading = defaultLoadingCallback!!, successCallback = successCallback)
-        }else{
+        if (defaultLoadingCallback != null) {
+            this.makeCall(toggleLoading = defaultLoadingCallback!!,
+                successCallback = successCallback)
+        } else {
             throw RuntimeException("defaultLoadingCallback != null")
         }
 
@@ -58,11 +61,19 @@ open class BaseActivity : Activity() {
             override fun onFailure(call: Call<T>, t: Throwable) {
                 toggleLoading(false)
 
-                if (!connectionUtil.isNetworkConnected()) {
-                    showAlertDialog(getString(R.string.network_fail_check_connection))
+                t.printStackTrace()
 
-                } else {
-                    showAlertDialog(getString(R.string.network_fail_try_again_later))
+                val tryAgainCallback = null
+
+                if (!connectionUtil.isNetworkConnected()) {
+                    showAlertDialog(getString(R.string.network_fail_check_connection), tryAgainCallback)
+
+                }else if(t is JsonSyntaxException){
+                    showAlertDialog(getString(R.string.network_fail_something_bad_happened), tryAgainCallback)
+                }
+                else {
+                    showAlertDialog(getString(R.string.network_fail_try_again_later),
+                        tryAgainCallback)
 
                 }
 
@@ -72,13 +83,18 @@ open class BaseActivity : Activity() {
         })
     }
 
-    private fun showAlertDialog(message: String) {
+    private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
         val builder = AlertDialog.Builder(this@BaseActivity)
         builder.setTitle(getString(R.string.app_name))
         builder.setMessage(message)
 
         builder.setPositiveButton(android.R.string.ok) { dialog, which ->
 
+        }
+        if (tryAgainCallback != null) {
+            builder.setNegativeButton("Tekrar Dene") { dialog, which ->
+                tryAgainCallback()
+            }
         }
 
         builder.show()

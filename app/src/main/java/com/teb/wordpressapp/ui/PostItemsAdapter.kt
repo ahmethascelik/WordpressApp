@@ -39,7 +39,7 @@ class PostItemsAdapter : RecyclerView.Adapter<PostItemsAdapter.PostItemViewHolde
     override fun onBindViewHolder(holder: PostItemViewHolder, position: Int) {
         val postItem = postItemList.get(position)
 
-        holder.textView.setText(postItem.slug)
+        holder.textView.setText(postItem.imageUrl())
     }
 
     override fun getItemCount(): Int {

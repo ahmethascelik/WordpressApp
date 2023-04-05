@@ -1,5 +1,6 @@
 package com.teb.wordpressapp.data
 
+import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.service.PostsService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +12,7 @@ class ServiceLocator {
         fun providePostService(): PostsService {
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://minimalistbaker.com/")
+                .baseUrl(AppConfig.ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
