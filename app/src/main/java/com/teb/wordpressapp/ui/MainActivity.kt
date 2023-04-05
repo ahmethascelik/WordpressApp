@@ -1,5 +1,6 @@
 package com.teb.wordpressapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -37,7 +38,9 @@ class MainActivity : BaseActivity() {
         recyclerView.adapter = adapter
 
         adapter.postItemTitleClickListener = { postItem ->
-            Log.d("ahmet", "Clicked: " + postItem.title())
+            val i = Intent(this@MainActivity, PostDetailActivity::class.java)
+            i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
+            startActivity(i)
         }
 
         progressBar = findViewById(R.id.progressBar)
