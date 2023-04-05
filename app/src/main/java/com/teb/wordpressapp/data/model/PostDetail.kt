@@ -1,10 +1,10 @@
 package com.teb.wordpressapp.data.model
 
-data class PostItem(
-    val id: String?,
+data class PostDetail(
     val slug : String?,
     val title : PostItemTitle?,
-    val yoast_head_json : YoastHeadJson?
+    val yoast_head_json : YoastHeadJson?,
+    val content: PostContent?
 ) {
     fun title(): String {
         return yoast_head_json?.title ?: ""
@@ -17,18 +17,12 @@ data class PostItem(
     fun imageUrl(): String {
         return yoast_head_json?.og_image?.first()?.url ?: ""
     }
+
+    fun content() : String{
+        return content?.rendered ?: ""
+    }
 }
 
-data class PostItemTitle(
+data class PostContent(
     val rendered : String?
-)
-
-data class YoastHeadJson(
-    val og_image : List<OgImage?>?,
-    val title : String?,
-    val description: String?
-)
-
-data class OgImage(
-    val url : String?
 )

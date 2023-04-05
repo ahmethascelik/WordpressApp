@@ -1,11 +1,19 @@
 package com.teb.wordpressapp.ui
 
+import android.R.attr.data
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import com.squareup.picasso.Picasso
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.data.ServiceLocator
+
 
 class PostDetailActivity : BaseActivity() {
 
@@ -13,6 +21,7 @@ class PostDetailActivity : BaseActivity() {
         const val EXTRA_POST_ID: String = "EXTRA_POST_ID"
     }
 
+    lateinit var webView: WebView
     val service = ServiceLocator.providePostService()
 
     lateinit var postId : String
@@ -39,11 +48,44 @@ class PostDetailActivity : BaseActivity() {
                 progressBar.visibility = View.GONE
             }
         }
+
+         webView = findViewById(R.id.webView)
     }
 
     private fun makeInitialRequest() {
-        service.getPostWithId(postId).makeCall {
-            Toast.makeText(this@PostDetailActivity, "Çalışıyor", Toast.LENGTH_LONG).show()
+
+        val imageView = findViewById<ImageView>(R.id.headerImage)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+
+
+        service.getPostWithId(postId).makeCall { postDetail->
+
+            toolbar.setTitle(postDetail.title())
+            Picasso.get().load(postDetail.imageUrl()).into(imageView)
+
+
+            val content = postDetail.content()
+
+            val htmlContent = content;//"<html><body>" + postDetail.content()+ "</body></html>"
+
+            webView.setWebViewClient(WebViewClient())
+            webView.setInitialScale(1);
+            webView.getSettings().setJavaScriptEnabled(true)
+            webView.getSettings().setDefaultFontSize(12)
+            webView.getSettings().setLoadWithOverviewMode(true);
+            webView.getSettings().setUseWideViewPort(true);
+            webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
+            webView.getSettings().setPluginState(WebSettings.PluginState.ON)
+            webView.getSettings().setMediaPlaybackRequiresUserGesture(false)
+
+            webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+            webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+
+            webView.settings.setGeolocationEnabled(false);
+
+            webView.setWebChromeClient(WebChromeClient())
+            webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+
         }
 
     }
