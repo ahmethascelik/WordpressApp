@@ -18,5 +18,9 @@ class AppConfig {
                 "    }\n" +
                 "</style>"
 
+        const val STATUS_BAR_COLOR = "#FFDED6"
+        const val STATUS_BAR_BLACK_TEXT: Boolean = true
+
+
     }
 }

@@ -2,18 +2,43 @@ package com.teb.wordpressapp.ui
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import androidx.annotation.ColorInt
 import com.google.gson.JsonSyntaxException
 import com.teb.wordpressapp.R
+import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.ui.util.ConnectionUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.RuntimeException
+
 
 typealias LoadingCallback = (isLoading: Boolean) -> Unit
 typealias TryAgainCallback = () -> Unit
 
 open class BaseActivity : Activity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setStatusBarColor(Color.parseColor(AppConfig.STATUS_BAR_COLOR))
+
+        if (AppConfig.STATUS_BAR_BLACK_TEXT) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
+    }
+
+    private fun setStatusBarColor(@ColorInt color: Int) {
+        val window: Window = window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(color)
+
+    }
 
     var defaultLoadingCallback: LoadingCallback? = null
 

@@ -1,27 +1,25 @@
 package com.teb.wordpressapp.ui
 
-import android.R.attr.data
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
-import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import com.squareup.picasso.Picasso
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
+import com.teb.wordpressapp.ui.util.loadUrl
 
 
 class PostDetailActivity : BaseActivity() {
 
-    companion object{
+    companion object {
         const val EXTRA_POST_ID: String = "EXTRA_POST_ID"
     }
 
@@ -29,7 +27,7 @@ class PostDetailActivity : BaseActivity() {
 
     val service = ServiceLocator.providePostService()
 
-    lateinit var postId : String
+    lateinit var postId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +42,12 @@ class PostDetailActivity : BaseActivity() {
     }
 
 
-
     private fun initViews() {
 
         defaultLoadingCallback = { isLoading ->
-            if(isLoading){
+            if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.progressBar.visibility = View.GONE
             }
         }
@@ -60,6 +57,24 @@ class PostDetailActivity : BaseActivity() {
             finish()
         }
 
+        binding.toolbar.menu.add(getString(R.string.menu_item_comments))
+        binding.toolbar.menu.add(getString(R.string.menu_item_share))
+
+        binding.toolbar.setOnMenuItemClickListener { clickedMenuItem ->
+            if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
+                //comments clicked
+                Toast.makeText(this@PostDetailActivity, "Comments Clicked", Toast.LENGTH_LONG).show()
+
+
+            } else if (getString(R.string.menu_item_share).equals(clickedMenuItem.title)) {
+                //share clicked
+                Toast.makeText(this@PostDetailActivity, "Share Clicked", Toast.LENGTH_LONG).show()
+
+            }
+
+            true
+        }
+
 
     }
 
@@ -67,11 +82,12 @@ class PostDetailActivity : BaseActivity() {
     private fun makeInitialRequest() {
 
 
-        service.getPostWithId(postId).makeCall { postDetail->
+        service.getPostWithId(postId).makeCall { postDetail ->
+
+//            this.postDetail = postDetail
 
             binding.toolbar.title = postDetail.title()
-
-            Picasso.get().load(postDetail.imageUrl()).into(binding.headerImage)
+            binding.headerImage.loadUrl(postDetail.imageUrl())
 
 
             val content = postDetail.content()
@@ -95,6 +111,7 @@ class PostDetailActivity : BaseActivity() {
             binding.webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
 
         }
+
 
     }
 }
