@@ -2,6 +2,7 @@ package com.teb.wordpressapp.ui
 
 import android.R.attr.data
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
@@ -53,6 +54,12 @@ class PostDetailActivity : BaseActivity() {
                 binding.progressBar.visibility = View.GONE
             }
         }
+        binding.toolbar.setTitleTextColor(Color.WHITE)
+
+        binding.toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
 
     }
 
@@ -63,6 +70,7 @@ class PostDetailActivity : BaseActivity() {
         service.getPostWithId(postId).makeCall { postDetail->
 
             binding.toolbar.title = postDetail.title()
+
             Picasso.get().load(postDetail.imageUrl()).into(binding.headerImage)
 
 
