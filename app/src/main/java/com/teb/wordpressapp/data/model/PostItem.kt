@@ -2,8 +2,6 @@ package com.teb.wordpressapp.data.model
 
 data class PostItem(
     val id: String?,
-    val slug : String?,
-    val title : PostItemTitle?,
     val yoast_head_json : YoastHeadJson?
 ) {
     fun title(): String {
