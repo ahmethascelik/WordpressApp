@@ -20,7 +20,12 @@ class AppConfig {
 
         const val STATUS_BAR_COLOR = "#FFDED6"
         const val STATUS_BAR_BLACK_TEXT: Boolean = true
+        var commentStyle = CommentStyle.AHMET
 
 
     }
+}
+
+enum class CommentStyle{
+    AHMET,
 }
