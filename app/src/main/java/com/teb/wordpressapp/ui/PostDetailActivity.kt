@@ -65,7 +65,19 @@ class PostDetailActivity : BaseActivity() {
 
             val content = postDetail.content()
 
-            val htmlContent = content;//"<html><body>" + postDetail.content()+ "</body></html>"
+            val htmlContent ="<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                    "\n" +
+                    "<style>\n" +
+                    "    .wp-block-image img{\n" +
+                    "        width: 200px !important;\n" +
+                    "        height: 200px !important;\n" +
+                    "    }\n" +
+                    "\n" +
+                    "    iframe{\n" +
+                    "        width: 200px !important;\n" +
+                    "        height: 200px !important;\n" +
+                    "    }\n" +
+                    "</style>" + content;//"<html><body>" + postDetail.content()+ "</body></html>"
 
             binding.webView.setWebViewClient(WebViewClient())
             binding.webView.setInitialScale(1);
