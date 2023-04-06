@@ -1,6 +1,7 @@
 package com.teb.wordpressapp.ui
 
 import android.R.attr.data
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
@@ -12,6 +13,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.Toolbar
 import com.squareup.picasso.Picasso
 import com.teb.wordpressapp.R
+import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
 
@@ -54,47 +56,34 @@ class PostDetailActivity : BaseActivity() {
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun makeInitialRequest() {
 
 
         service.getPostWithId(postId).makeCall { postDetail->
 
-            binding.toolbar.setTitle(postDetail.title())
+            binding.toolbar.title = postDetail.title()
             Picasso.get().load(postDetail.imageUrl()).into(binding.headerImage)
 
 
             val content = postDetail.content()
 
-            val htmlContent ="<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-                    "\n" +
-                    "<style>\n" +
-                    "    .wp-block-image img{\n" +
-                    "        width: 200px !important;\n" +
-                    "        height: 200px !important;\n" +
-                    "    }\n" +
-                    "\n" +
-                    "    iframe{\n" +
-                    "        width: 200px !important;\n" +
-                    "        height: 200px !important;\n" +
-                    "    }\n" +
-                    "</style>" + content;//"<html><body>" + postDetail.content()+ "</body></html>"
+            val htmlContent = AppConfig.HTML_HEADER + content
 
-            binding.webView.setWebViewClient(WebViewClient())
+            binding.webView.webViewClient = WebViewClient()
             binding.webView.setInitialScale(1);
-            binding.webView.getSettings().setJavaScriptEnabled(true)
-            binding.webView.getSettings().setDefaultFontSize(12)
-            binding.webView.getSettings().setLoadWithOverviewMode(true);
-            binding.webView.getSettings().setUseWideViewPort(true);
-            binding.webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true)
-            binding.webView.getSettings().setPluginState(WebSettings.PluginState.ON)
-            binding.webView.getSettings().setMediaPlaybackRequiresUserGesture(false)
+            binding.webView.settings.javaScriptEnabled = true
+            binding.webView.settings.defaultFontSize = 12
+            binding.webView.settings.loadWithOverviewMode = true;
+            binding.webView.settings.useWideViewPort = true;
+            binding.webView.settings.javaScriptCanOpenWindowsAutomatically = true
+            binding.webView.settings.mediaPlaybackRequiresUserGesture = false
 
-            binding.webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-            binding.webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+            binding.webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE;
 
             binding.webView.settings.setGeolocationEnabled(false);
 
-            binding.webView.setWebChromeClient(WebChromeClient())
+            binding.webView.webChromeClient = WebChromeClient()
             binding.webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
 
         }
