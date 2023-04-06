@@ -4,7 +4,8 @@ data class PostDetail(
     val slug : String?,
     val title : PostItemTitle?,
     val yoast_head_json : YoastHeadJson?,
-    val content: PostContent?
+    val content: PostContent?,
+    val link: String?
 ) {
     fun title(): String {
         return yoast_head_json?.title ?: ""

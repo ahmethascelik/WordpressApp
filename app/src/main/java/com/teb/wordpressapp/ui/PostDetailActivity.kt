@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
+import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
 import com.teb.wordpressapp.ui.util.loadUrl
 
@@ -22,6 +23,8 @@ class PostDetailActivity : BaseActivity() {
     companion object {
         const val EXTRA_POST_ID: String = "EXTRA_POST_ID"
     }
+
+    private var postDetail: PostDetail? = null
 
     private lateinit var binding: ActivityPostDetailBinding
 
@@ -65,10 +68,19 @@ class PostDetailActivity : BaseActivity() {
                 //comments clicked
                 Toast.makeText(this@PostDetailActivity, "Comments Clicked", Toast.LENGTH_LONG).show()
 
+                service.getCommentsWithPostId(postId).makeCall { commentList ->
+                    Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
+
+
+
+                }
+
 
             } else if (getString(R.string.menu_item_share).equals(clickedMenuItem.title)) {
                 //share clicked
-                Toast.makeText(this@PostDetailActivity, "Share Clicked", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@PostDetailActivity, "Share Clicked: " + postDetail?.link, Toast.LENGTH_LONG).show()
+
+                //postDetail?.link
 
             }
 
@@ -84,7 +96,7 @@ class PostDetailActivity : BaseActivity() {
 
         service.getPostWithId(postId).makeCall { postDetail ->
 
-//            this.postDetail = postDetail
+            this.postDetail = postDetail
 
             binding.toolbar.title = postDetail.title()
             binding.headerImage.loadUrl(postDetail.imageUrl())

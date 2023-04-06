@@ -6,6 +6,7 @@ import com.teb.wordpressapp.data.model.PostItem
 import retrofit2.http.GET
 import retrofit2.Call
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PostsService {
 
@@ -18,8 +19,8 @@ interface PostsService {
 
 
     //https://minimalistbaker.com/wp-json/wp/v2/comments/?post=107331
-    @GET("wp-json/wp/v2/comments/?post={id}")
-    fun getCommentsWithPostId(@Path("id") postId: String): Call<List<Comment>?>
+    @GET("wp-json/wp/v2/comments/")
+    fun getCommentsWithPostId(@Query("post") postId: String): Call<List<Comment>?>
 
 
 }
