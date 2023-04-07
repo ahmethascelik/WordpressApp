@@ -2,15 +2,15 @@ package com.teb.wordpressapp.ui
 
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
+import com.teb.wordpressapp.config.NavLink
+import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.ActivityMainBinding
@@ -22,7 +22,6 @@ class MainActivity : BaseActivity() {
 
     val service = ServiceLocator.providePostService()
 
-    lateinit var  mainThreadHandler : Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,25 +30,10 @@ class MainActivity : BaseActivity() {
 
         setContentView(binding.root)
 
-        mainThreadHandler = Handler(Looper.getMainLooper())
-
-
         initViews()
         makeInitialRequests()
 
-
-
-
     }
-    val titleRenamerUiRunnable = Runnable{
-        binding.textView.text = "Ahmet"
-
-    }
-
-
-
-
-
 
     val adapter = PostItemsAdapter()
 
@@ -78,6 +62,26 @@ class MainActivity : BaseActivity() {
             binding.drawerLayout.open()
         }
 
+
+
+        setupMenu()
+
+
+
+    }
+
+    private fun setupMenu() {
+
+        val dataMap = HashMap<String, NavLink>()
+
+        for (navViewLink in AppConfig.NAV_VIEW_LINKS) {
+            binding.navView.menu.add(navViewLink.title)
+
+            dataMap.put(navViewLink.title, navViewLink)
+
+        }
+
+
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             // Handle menu item selected
 
@@ -88,29 +92,21 @@ class MainActivity : BaseActivity() {
             menuItem.isChecked = true
             binding.drawerLayout.close()
 
-            if(menuItem.itemId == R.id.item4){
+            val navViewLink = dataMap.get(menuItem.title)
 
-                mainThreadHandler.postDelayed(titleRenamerUiRunnable, 5000)
+            navViewLink?.let { navLink ->
 
+                when(navLink.actionType){
+                    NavLinkActionType.ReturnToHome -> {
 
-            }
-
-
-            if(menuItem.itemId == R.id.item5){
-
-                val runnable : Runnable= Runnable{
-                    Thread.sleep(1000)
-
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(AppConfig.ENDPOINT))
-                    startActivity(browserIntent)
+                    }
+                    NavLinkActionType.OpenInWebBrowser -> {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(navLink.link))
+                            startActivity(browserIntent)
+                        }, 500)
+                    }
                 }
-
-
-                val browserOpenerThread = Thread (runnable)
-
-
-                browserOpenerThread.start()
-
 
             }
 
@@ -118,10 +114,6 @@ class MainActivity : BaseActivity() {
 
             true
         }
-
-
-        binding.navView.inflateMenu(R.menu.nav_menu)
-
 
     }
 

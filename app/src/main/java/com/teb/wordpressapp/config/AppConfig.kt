@@ -22,10 +22,16 @@ class AppConfig {
         const val STATUS_BAR_BLACK_TEXT: Boolean = true
         var commentStyle = CommentStyle.AHMET
 
+        var NAV_VIEW_LINKS= listOf(
+            NavLink(title = "Home", link = null, actionType = NavLinkActionType.ReturnToHome ),
+            NavLink(title = "About", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "Shop", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "Our Baking Mixes", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "All Recipes", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "Vegan", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "Gluten-Free", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.OpenInWebBrowser ),
+        )
+
 
     }
-}
-
-enum class CommentStyle{
-    AHMET,
 }
