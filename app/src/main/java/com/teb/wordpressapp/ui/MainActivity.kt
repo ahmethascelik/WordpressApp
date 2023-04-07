@@ -56,6 +56,19 @@ class MainActivity : BaseActivity() {
         }
 
 
+        binding.toolbar.setNavigationOnClickListener {
+            binding.drawerLayout.open()
+        }
+
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
+            // Handle menu item selected
+            menuItem.isChecked = true
+            binding.drawerLayout.close()
+            true
+        }
+
+
+
     }
 
 
