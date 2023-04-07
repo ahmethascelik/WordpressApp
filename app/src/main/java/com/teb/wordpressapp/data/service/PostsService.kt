@@ -18,6 +18,9 @@ interface PostsService {
     fun getPostWithId(@Path("id") id: String): Call<PostDetail>
 
 
+    @GET("wp-json/wp/v2/pages/{id}")
+    fun getPageWithId(@Path("id") id: String): Call<PostDetail>
+
     //https://minimalistbaker.com/wp-json/wp/v2/comments/?post=107331
     @GET("wp-json/wp/v2/comments/")
     fun getCommentsWithPostId(@Query("post") postId: String): Call<List<Comment>?>

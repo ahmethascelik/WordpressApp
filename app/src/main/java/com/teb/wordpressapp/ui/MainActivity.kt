@@ -106,13 +106,18 @@ class MainActivity : BaseActivity() {
                         binding.webView.visibility = View.VISIBLE
                         binding.recyclerView.visibility = View.GONE
 
-                        binding.webView.loadUrl(navLink.link!!)
+                        binding.webView.loadUrl(navLink.data!!)
                     }
                     NavLinkActionType.OpenInWebBrowser -> {
                         Handler(Looper.getMainLooper()).postDelayed({
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(navLink.link))
+                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(navLink.data))
                             startActivity(browserIntent)
                         }, 500)
+                    }
+                    NavLinkActionType.OpenPageDetail -> {
+                        val i = Intent(this@MainActivity, PageDetailActivity::class.java)
+                        i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
+                        startActivity(i)
                     }
                 }
 

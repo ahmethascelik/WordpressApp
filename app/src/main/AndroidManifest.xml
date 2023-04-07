@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.PostDetailActivity" />
+        <activity android:name=".ui.PageDetailActivity" />
     </application>
 
 </manifest>

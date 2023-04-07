@@ -23,13 +23,13 @@ class AppConfig {
         var commentStyle = CommentStyle.AHMET
 
         var NAV_VIEW_LINKS= listOf(
-            NavLink(title = "Home", link = null, actionType = NavLinkActionType.ReturnToHome ),
-            NavLink(title = "About", link = "https://minimalistbaker.com/about/", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Shop", link = "https://minimalistbaker.com/shop/", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Our Baking Mixes", link = "https://shop.minimalistbaker.com/", actionType = NavLinkActionType.OpenInWebBrowser ),
-            NavLink(title = "All Recipes", link = "https://minimalistbaker.com/recipe-index/", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Vegan", link = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=vegan", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Gluten-Free", link = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "Home", data = null, actionType = NavLinkActionType.ReturnToHome ),
+            NavLink(title = "About", data = "5", actionType = NavLinkActionType.OpenPageDetail ),
+            NavLink(title = "Shop", data = "https://minimalistbaker.com/shop/", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "Our Baking Mixes", data = "https://shop.minimalistbaker.com/", actionType = NavLinkActionType.OpenInWebBrowser ),
+            NavLink(title = "All Recipes", data = "https://minimalistbaker.com/recipe-index/", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "Vegan", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=vegan", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "Gluten-Free", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free", actionType = NavLinkActionType.ShowInWebView ),
         )
 
 
