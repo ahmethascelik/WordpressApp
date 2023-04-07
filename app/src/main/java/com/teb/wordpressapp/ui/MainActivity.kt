@@ -98,7 +98,15 @@ class MainActivity : BaseActivity() {
 
                 when(navLink.actionType){
                     NavLinkActionType.ReturnToHome -> {
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.webView.visibility = View.GONE
 
+                    }
+                    NavLinkActionType.ShowInWebView -> {
+                        binding.webView.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
+
+                        binding.webView.loadUrl(navLink.link!!)
                     }
                     NavLinkActionType.OpenInWebBrowser -> {
                         Handler(Looper.getMainLooper()).postDelayed({

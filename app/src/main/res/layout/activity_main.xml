@@ -63,10 +63,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="visible"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar"
