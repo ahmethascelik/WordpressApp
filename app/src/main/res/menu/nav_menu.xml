@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/subtitle"
+            android:title="Subtitle">
+            <menu>
+                <item
+                    android:id="@+id/item4"
+                    android:icon="@drawable/ic_baseline_arrow_back_24"
+                    android:title="Item 4" />
+
+                <item
+                    android:id="@+id/item5"
+                    android:icon="@drawable/ic_baseline_menu_24"
+                    android:title="Visit Us" />
+
+            </menu>
+        </item>
+    </group>
+
+</menu>
