@@ -1,8 +1,10 @@
 package com.teb.wordpressapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebChromeClient
@@ -70,20 +72,14 @@ class PostDetailActivity : BaseActivity() {
 
                 service.getCommentsWithPostId(postId).makeCall { commentList ->
                     Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
-
-
-
                 }
-
-
             } else if (getString(R.string.menu_item_share).equals(clickedMenuItem.title)) {
-                //share clicked
-                Toast.makeText(this@PostDetailActivity, "Share Clicked: " + postDetail?.link, Toast.LENGTH_LONG).show()
-
-                //postDetail?.link
-
+                val intent= Intent()
+                intent.action=Intent.ACTION_SEND
+                intent.putExtra(Intent.EXTRA_TEXT,"${postDetail?.link}")
+                intent.type="text/plain"
+                startActivity(Intent.createChooser(intent,"Share To:"))
             }
-
             true
         }
 
