@@ -44,6 +44,7 @@ class PostDetailActivity : BaseActivity() {
 
     private fun initViews() {
 
+
         defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
@@ -51,7 +52,6 @@ class PostDetailActivity : BaseActivity() {
                 binding.progressBar.visibility = View.GONE
             }
         }
-        binding.toolbar.setTitleTextColor(Color.WHITE)
 
         binding.toolbar.setNavigationOnClickListener {
             finish()
@@ -96,6 +96,8 @@ class PostDetailActivity : BaseActivity() {
             this.postDetail = postDetail
 
             binding.toolbar.title = postDetail.title()
+//            binding.collapsingToolbarLayout.title = postDetail.title()
+
             binding.headerImage.loadUrl(postDetail.imageUrl())
             binding.webView.loadHtmlContent(postDetail.content(), AppConfig.HIDE_POSTS_FIRST_IMG)
         }
