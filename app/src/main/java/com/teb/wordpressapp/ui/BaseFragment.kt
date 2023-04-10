@@ -1,45 +1,15 @@
 package com.teb.wordpressapp.ui
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.graphics.Color
-import android.os.Bundle
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import androidx.annotation.ColorInt
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.Fragment
 import com.google.gson.JsonSyntaxException
 import com.teb.wordpressapp.R
-import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.ui.util.ConnectionUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
-typealias LoadingCallback = (isLoading: Boolean) -> Unit
-typealias TryAgainCallback = () -> Unit
-
-open class BaseActivity : FragmentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setStatusBarColor(Color.parseColor(AppConfig.STATUS_BAR_COLOR))
-
-        if (AppConfig.STATUS_BAR_BLACK_TEXT) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-
-    }
-
-    private fun setStatusBarColor(@ColorInt color: Int) {
-        val window: Window = window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.setStatusBarColor(color)
-
-    }
+open class BaseFragment : Fragment() {
 
     var defaultLoadingCallback: LoadingCallback? = null
 
@@ -66,7 +36,7 @@ open class BaseActivity : FragmentActivity() {
 
         this.enqueue(object : Callback<T> {
 
-            val connectionUtil = ConnectionUtil(this@BaseActivity)
+            val connectionUtil = ConnectionUtil(requireActivity())
 
 
             override fun onResponse(
@@ -110,7 +80,7 @@ open class BaseActivity : FragmentActivity() {
     }
 
     private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
-        val builder = AlertDialog.Builder(this@BaseActivity)
+        val builder = AlertDialog.Builder(this.activity)
         builder.setTitle(getString(R.string.app_name))
         builder.setMessage(message)
 
@@ -127,4 +97,3 @@ open class BaseActivity : FragmentActivity() {
     }
 
 }
-

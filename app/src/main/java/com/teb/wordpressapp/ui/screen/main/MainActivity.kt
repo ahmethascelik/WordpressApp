@@ -5,26 +5,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import androidx.core.view.children
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
-import com.teb.wordpressapp.data.ServiceLocator
-import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.screen.PageDetailActivity
-import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
-import com.teb.wordpressapp.ui.screen.postdetail.PostItemsAdapter
+import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    val service = ServiceLocator.providePostService()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,31 +31,12 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         initViews()
-        makeInitialRequests()
 
     }
 
-    val adapter = PostItemsAdapter()
 
     private fun initViews() {
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
-
-        adapter.postItemTitleClickListener = { postItem ->
-            val i = Intent(this@MainActivity, PostDetailActivity::class.java)
-            i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
-            startActivity(i)
-        }
-
-
-        defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
 
 
         binding.toolbar.setNavigationOnClickListener {
@@ -71,7 +48,16 @@ class MainActivity : BaseActivity() {
         setupMenu()
 
 
+        val fragment = PostItemListFragment.newInstance()
 
+        replaceFragment(fragment)
+
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment, "tag")
+            .commit()
     }
 
     private fun setupMenu() {
@@ -102,15 +88,18 @@ class MainActivity : BaseActivity() {
 
                 when(navLink.actionType){
                     NavLinkActionType.ReturnToHome -> {
-                        binding.recyclerView.visibility = View.VISIBLE
-                        binding.webView.visibility = View.GONE
+                        //todo
+//                        binding.recyclerView.visibility = View.VISIBLE
+//                        binding.webView.visibility = View.GONE
 
                     }
                     NavLinkActionType.ShowInWebView -> {
-                        binding.webView.visibility = View.VISIBLE
-                        binding.recyclerView.visibility = View.GONE
+                        //todo
 
-                        binding.webView.loadUrl(navLink.data!!)
+//                        binding.webView.visibility = View.VISIBLE
+//                        binding.recyclerView.visibility = View.GONE
+//
+//                        binding.webView.loadUrl(navLink.data!!)
                     }
                     NavLinkActionType.OpenInWebBrowser -> {
                         Handler(Looper.getMainLooper()).postDelayed({
@@ -130,15 +119,6 @@ class MainActivity : BaseActivity() {
 
 
             true
-        }
-
-    }
-
-
-    private fun makeInitialRequests() {
-
-        service.getPosts().makeCall { result: List<PostItem>? ->
-            adapter.setDataList(result!!)
         }
 
     }

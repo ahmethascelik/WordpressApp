@@ -1,4 +1,4 @@
-package com.teb.wordpressapp.ui.screen.postdetail
+package com.teb.wordpressapp.ui.screen.main.postitem
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
