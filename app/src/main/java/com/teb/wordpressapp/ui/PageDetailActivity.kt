@@ -13,6 +13,8 @@ import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
+import com.teb.wordpressapp.ui.util.Constants
+import com.teb.wordpressapp.ui.util.loadHtmlContent
 import com.teb.wordpressapp.ui.util.loadUrl
 
 
@@ -72,26 +74,7 @@ class PageDetailActivity : BaseActivity() {
             binding.toolbar.title = postDetail.title()
             binding.headerImage.loadUrl(postDetail.imageUrl())
 
-
-            val content = postDetail.content()
-
-            val htmlContent = AppConfig.HTML_HEADER + content
-
-            binding.webView.webViewClient = WebViewClient()
-            binding.webView.setInitialScale(1);
-            binding.webView.settings.javaScriptEnabled = true
-            binding.webView.settings.defaultFontSize = 12
-            binding.webView.settings.loadWithOverviewMode = true;
-            binding.webView.settings.useWideViewPort = true;
-            binding.webView.settings.javaScriptCanOpenWindowsAutomatically = true
-            binding.webView.settings.mediaPlaybackRequiresUserGesture = false
-
-            binding.webView.settings.cacheMode = WebSettings.LOAD_NO_CACHE;
-
-            binding.webView.settings.setGeolocationEnabled(false);
-
-            binding.webView.webChromeClient = WebChromeClient()
-            binding.webView.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+            binding.webView.loadHtmlContent(postDetail.content())
 
         }
 
