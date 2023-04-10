@@ -7,14 +7,14 @@ class AppConfig {
         const val HTML_HEADER = "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
                 "\n" +
                 "<style>\n" +
-                "    .wp-block-image img{\n" +
-                "        width: 200px !important;\n" +
-                "        height: 200px !important;\n" +
+                "    img{\n" +
+                "        width: 100% !important;\n" +
+                "        height: auto !important;\n" +
                 "    }\n" +
                 "\n" +
                 "    iframe{\n" +
-                "        width: 200px !important;\n" +
-                "        height: 200px !important;\n" +
+                "        width: 100% !important;\n" +
+                "        height: auto !important;\n" +
                 "    }\n" +
                 "</style>"
 
