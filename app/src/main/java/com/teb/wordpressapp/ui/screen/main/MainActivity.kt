@@ -13,8 +13,8 @@ import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
-import com.teb.wordpressapp.ui.screen.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
+import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
 
 
 class MainActivity : BaseActivity() {
@@ -106,9 +106,13 @@ class MainActivity : BaseActivity() {
                         }, 500)
                     }
                     NavLinkActionType.OpenPageDetail -> {
-                        val i = Intent(this@MainActivity, PageDetailActivity::class.java)
-                        i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
-                        startActivity(i)
+//                        val i = Intent(this@MainActivity, PageDetailActivity::class.java)
+//                        i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
+//                        startActivity(i)
+
+
+                        val fragment = PageDetailFragment.newInstance(navViewLink.data!!)
+                        replaceFragment(fragment)
                     }
                 }
 

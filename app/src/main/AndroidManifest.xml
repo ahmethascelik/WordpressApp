@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.screen.postdetail.PostDetailActivity" />
-        <activity android:name=".ui.screen.PageDetailActivity" />
+        <activity android:name=".ui.screen.pagedetail.PageDetailActivity" />
     </application>
 
 </manifest>

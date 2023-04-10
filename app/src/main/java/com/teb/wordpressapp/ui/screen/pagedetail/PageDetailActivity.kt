@@ -1,4 +1,4 @@
-package com.teb.wordpressapp.ui.screen
+package com.teb.wordpressapp.ui.screen.pagedetail
 
 import android.annotation.SuppressLint
 import android.graphics.Color
