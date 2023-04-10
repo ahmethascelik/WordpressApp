@@ -5,16 +5,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Toast
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
-import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
+import com.teb.wordpressapp.ui.screen.main.categories.CategoriesFragment
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
@@ -25,8 +24,6 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,24 +33,10 @@ class MainActivity : BaseActivity() {
 
         initViews()
 
-        getCategories()
 
     }
 
-    private fun getCategories() {
-        val service = ServiceLocator.providePostService()
-        defaultLoadingCallback = {}
 
-        service.getTopLevelCategories().makeCall {
-            Toast.makeText(this@MainActivity, "size "+ it?.size, Toast.LENGTH_SHORT).show()
-
-            it?.get(2)?.id?.let { it1 -> service.getCategories(it1).makeCall(){
-                innerCat->
-                Toast.makeText(this@MainActivity, "size "+ innerCat?.size, Toast.LENGTH_SHORT).show()
-
-            } }
-        }
-    }
 
 
     private fun initViews() {
@@ -134,6 +117,10 @@ class MainActivity : BaseActivity() {
                     }
                     NavLinkActionType.OpenPageDetailInFragment -> {
                         val fragment = PageDetailFragment.newInstance(navViewLink.data!!)
+                        replaceFragment(fragment)
+                    }
+                    NavLinkActionType.OpenCategoriesInFragment -> {
+                        val fragment = CategoriesFragment.newInstance()
                         replaceFragment(fragment)
                     }
                 }

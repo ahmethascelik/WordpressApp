@@ -23,7 +23,8 @@ class AppConfig {
             NavLink(title = "All Recipes", data = "https://minimalistbaker.com/recipe-index/", actionType = NavLinkActionType.ShowInWebViewInFragment ),
             NavLink(title = "Vegan", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=vegan", actionType = NavLinkActionType.ShowInWebViewInFragment ),
             NavLink(title = "Gluten-Free", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free", actionType = NavLinkActionType.ShowInWebViewInFragment ),
-        )
+            NavLink(title = "Categories", data = null, actionType = NavLinkActionType.OpenCategoriesInFragment)
+            )
 
 
     }
