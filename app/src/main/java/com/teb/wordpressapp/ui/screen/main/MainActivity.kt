@@ -16,6 +16,7 @@ import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
+import com.teb.wordpressapp.ui.util.loadUrl
 
 
 class MainActivity : BaseActivity() {
@@ -38,6 +39,7 @@ class MainActivity : BaseActivity() {
 
     private fun initViews() {
 
+        binding.headerImage.loadUrl(AppConfig.LOGO_URL)
 
 
         binding.toolbar.setNavigationOnClickListener {
