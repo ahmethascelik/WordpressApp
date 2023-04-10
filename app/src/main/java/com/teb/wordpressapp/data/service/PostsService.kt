@@ -1,5 +1,6 @@
 package com.teb.wordpressapp.data.service
 
+import com.teb.wordpressapp.data.model.Category
 import com.teb.wordpressapp.data.model.Comment
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.data.model.PostItem
@@ -24,6 +25,15 @@ interface PostsService {
     //https://minimalistbaker.com/wp-json/wp/v2/comments/?post=107331
     @GET("wp-json/wp/v2/comments/")
     fun getCommentsWithPostId(@Query("post") postId: String): Call<List<Comment>?>
+
+
+
+    //https://minimalistbaker.com/wp-json/wp/v2/categories/?_fields=name, id, link&per_page=100&parent=0
+    @GET("wp-json/wp/v2/categories/?_fields=name,id,link,parent&per_page=100")
+    fun getCategories(@Query("parent") parent: String): Call<List<Category>?>
+
+    @GET("wp-json/wp/v2/categories/?_fields=name,id,link,parent&per_page=100&parent=0")
+    fun getTopLevelCategories(): Call<List<Category>?>
 
 
 }
