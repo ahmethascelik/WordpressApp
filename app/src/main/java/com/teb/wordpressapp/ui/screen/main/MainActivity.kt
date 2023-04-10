@@ -56,7 +56,7 @@ class MainActivity : BaseActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment, "tag")
+            .replace(R.id.fragmentContainer, fragment, null)
             .commit()
     }
 
@@ -88,18 +88,16 @@ class MainActivity : BaseActivity() {
 
                 when(navLink.actionType){
                     NavLinkActionType.ReturnToHome -> {
-                        //todo
-//                        binding.recyclerView.visibility = View.VISIBLE
-//                        binding.webView.visibility = View.GONE
+
+                        val fragment = PostItemListFragment.newInstance()
+                        replaceFragment(fragment)
 
                     }
                     NavLinkActionType.ShowInWebView -> {
-                        //todo
 
-//                        binding.webView.visibility = View.VISIBLE
-//                        binding.recyclerView.visibility = View.GONE
-//
-//                        binding.webView.loadUrl(navLink.data!!)
+                        val fragment = WebUrlFragment.newInstance(navViewLink.data!!)
+                        replaceFragment(fragment)
+
                     }
                     NavLinkActionType.OpenInWebBrowser -> {
                         Handler(Looper.getMainLooper()).postDelayed({
