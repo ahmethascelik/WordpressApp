@@ -1,6 +1,7 @@
 package com.teb.wordpressapp.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -81,7 +82,12 @@ class PostDetailActivity : BaseActivity() {
                 Toast.makeText(this@PostDetailActivity, "Share Clicked: " + postDetail?.link, Toast.LENGTH_LONG).show()
 
                 //postDetail?.link
-
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, postDetail?.link)
+                    type = "text/plain"
+                }
+                startActivity(Intent.createChooser(sendIntent, getString(R.string.menu_item_share)))
             }
 
             true
