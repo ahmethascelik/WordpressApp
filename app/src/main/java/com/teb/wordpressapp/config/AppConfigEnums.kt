@@ -9,8 +9,8 @@ enum class CommentStyle{
 data class NavLink(
     val title : String,
     val data : String?,
-    val actionType: NavLinkActionType
+    val actionType: NavLinkActionType,
     )
 enum class NavLinkActionType{
-     ReturnToHome, ShowInWebViewInFragment, OpenInWebBrowser, OpenPageDetailInFragment, OpenPageDetailInNewActivity
+     ReturnToHome, ShowInWebViewInFragment, OpenInWebBrowser, OpenPageDetailInFragment, OpenPageDetailInNewActivity, OpenCategoriesInFragment
 }
