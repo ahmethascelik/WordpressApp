@@ -10,12 +10,12 @@ class AppConfig {
 
         var NAV_VIEW_LINKS= listOf(
             NavLink(title = "Home", data = null, actionType = NavLinkActionType.ReturnToHome ),
-            NavLink(title = "About", data = "5", actionType = NavLinkActionType.OpenPageDetail ),
-            NavLink(title = "Shop", data = "https://minimalistbaker.com/shop/", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "About", data = "5", actionType = NavLinkActionType.OpenPageDetailInFragment ),
+            NavLink(title = "Shop", data = "https://minimalistbaker.com/shop/", actionType = NavLinkActionType.ShowInWebViewInFragment ),
             NavLink(title = "Our Baking Mixes", data = "https://shop.minimalistbaker.com/", actionType = NavLinkActionType.OpenInWebBrowser ),
-            NavLink(title = "All Recipes", data = "https://minimalistbaker.com/recipe-index/", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Vegan", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=vegan", actionType = NavLinkActionType.ShowInWebView ),
-            NavLink(title = "Gluten-Free", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free", actionType = NavLinkActionType.ShowInWebView ),
+            NavLink(title = "All Recipes", data = "https://minimalistbaker.com/recipe-index/", actionType = NavLinkActionType.ShowInWebViewInFragment ),
+            NavLink(title = "Vegan", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=vegan", actionType = NavLinkActionType.ShowInWebViewInFragment ),
+            NavLink(title = "Gluten-Free", data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free", actionType = NavLinkActionType.ShowInWebViewInFragment ),
         )
 
 

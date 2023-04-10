@@ -14,6 +14,7 @@ import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
+import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
 
 
@@ -93,7 +94,7 @@ class MainActivity : BaseActivity() {
                         replaceFragment(fragment)
 
                     }
-                    NavLinkActionType.ShowInWebView -> {
+                    NavLinkActionType.ShowInWebViewInFragment -> {
 
                         val fragment = WebUrlFragment.newInstance(navViewLink.data!!)
                         replaceFragment(fragment)
@@ -105,12 +106,12 @@ class MainActivity : BaseActivity() {
                             startActivity(browserIntent)
                         }, 500)
                     }
-                    NavLinkActionType.OpenPageDetail -> {
-//                        val i = Intent(this@MainActivity, PageDetailActivity::class.java)
-//                        i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
-//                        startActivity(i)
-
-
+                    NavLinkActionType.OpenPageDetailInNewActivity -> {
+                        val i = Intent(this@MainActivity, PageDetailActivity::class.java)
+                        i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
+                        startActivity(i)
+                    }
+                    NavLinkActionType.OpenPageDetailInFragment -> {
                         val fragment = PageDetailFragment.newInstance(navViewLink.data!!)
                         replaceFragment(fragment)
                     }
