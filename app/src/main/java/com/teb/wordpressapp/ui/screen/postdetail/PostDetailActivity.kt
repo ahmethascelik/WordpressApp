@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.teb.wordpressapp.R
+import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
@@ -96,7 +97,7 @@ class PostDetailActivity : BaseActivity() {
 
             binding.toolbar.title = postDetail.title()
             binding.headerImage.loadUrl(postDetail.imageUrl())
-            binding.webView.loadHtmlContent(postDetail.content())
+            binding.webView.loadHtmlContent(postDetail.content(), AppConfig.HIDE_POSTS_FIRST_IMG)
         }
 
 

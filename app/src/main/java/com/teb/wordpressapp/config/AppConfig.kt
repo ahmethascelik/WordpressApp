@@ -7,6 +7,12 @@ class AppConfig {
         const val LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png"
         const val STATUS_BAR_COLOR = "#FFDED6"
         const val STATUS_BAR_BLACK_TEXT: Boolean = true
+        const val HIDE_POSTS_FIRST_IMG: Boolean  = true
+
+        val WEB_URL_FRAGMENT_CUSTOM_JS =
+            listOf("document.getElementsByTagName('header')[0].style.display = 'none'; ",
+                "document.getElementsByClassName('top-bar')[0].style.display='none';")
+
         var commentStyle = CommentStyle.AHMET
 
         var NAV_VIEW_LINKS= listOf(
