@@ -1,11 +1,8 @@
-package com.teb.wordpressapp.ui
+package com.teb.wordpressapp.ui.screen.postdetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.ListItemPostBinding
 import com.teb.wordpressapp.ui.util.loadUrl

@@ -1,4 +1,4 @@
-package com.teb.wordpressapp.ui
+package com.teb.wordpressapp.ui.screen.main
 
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +14,10 @@ import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.ActivityMainBinding
+import com.teb.wordpressapp.ui.BaseActivity
+import com.teb.wordpressapp.ui.screen.PageDetailActivity
+import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
+import com.teb.wordpressapp.ui.screen.postdetail.PostItemsAdapter
 
 
 class MainActivity : BaseActivity() {

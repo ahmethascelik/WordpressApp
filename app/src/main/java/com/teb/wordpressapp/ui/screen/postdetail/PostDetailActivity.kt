@@ -1,23 +1,15 @@
-package com.teb.wordpressapp.ui
+package com.teb.wordpressapp.ui.screen.postdetail
 
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import com.teb.wordpressapp.R
-import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.data.ServiceLocator
-import com.teb.wordpressapp.data.model.PostContent
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
-import com.teb.wordpressapp.ui.util.Constants
+import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.util.loadHtmlContent
 import com.teb.wordpressapp.ui.util.loadUrl
 
