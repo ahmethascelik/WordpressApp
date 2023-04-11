@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.FragmentPostItemListBinding
 import com.teb.wordpressapp.ui.BaseFragment
-import com.teb.wordpressapp.ui.screen.main.MainActivity
 import com.teb.wordpressapp.ui.screen.main.SearchableFragment
 import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
 
@@ -36,7 +34,7 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
     ): View {
         binding = FragmentPostItemListBinding.inflate(layoutInflater, container, false)
         initView()
-        makeInitialRequests()
+        getPostWithPageNum(1)
 
         return binding.root
     }
@@ -65,23 +63,58 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
         binding.btnClearSearch.setOnClickListener {
             adapter.setDataList(emptyList())
-            makeInitialRequests()
+            getPostWithPageNum(1)
             binding.layoutSearchQueryInfo.visibility = View.GONE
+        }
+
+        binding.btnPaginationFirst.setOnClickListener {
+            gotoPage(1)
+        }
+        binding.btnPaginationLast.setOnClickListener {
+            gotoPage(lastPage)
+        }
+
+        binding.btnPaginationNext.setOnClickListener {
+            gotoPage(currentPage + 1)
+        }
+        binding.btnPaginationPrev.setOnClickListener {
+            gotoPage(currentPage - 1)
         }
     }
 
+    private fun gotoPage(pageNum: Int) {
+        getPostWithPageNum(pageNum)
+    }
 
-    private fun makeInitialRequests() {
+    var currentPage: Int = 1
+    var lastPage: Int = 1
 
-        service.getPosts().makeCall(successCallback = { result: List<PostItem>? ->
+    private fun getPostWithPageNum(currentPage: Int) {
+
+        this.currentPage = currentPage
+
+        binding.paginationLayout.visibility = View.GONE
+
+        service.getPosts(page = ""+currentPage).makeCall(successCallback = { result: List<PostItem>? ->
             adapter.setDataList(result!!)
-        }, responseHeaderCallback = { header_wp_totalpages ->
-            Toast.makeText(activity, ""+ header_wp_totalpages, Toast.LENGTH_SHORT).show()
+        }, paginationCallback = { header_wp_totalpages ->
+
+            lastPage = header_wp_totalpages
+
+            binding.paginationLayout.visibility = View.VISIBLE
+
+            binding.txtPaginationInfo.text = "$currentPage/$header_wp_totalpages"
+
+            binding.btnPaginationFirst.isEnabled = 1 != currentPage
+            binding.btnPaginationPrev.isEnabled = 1 != currentPage
+            binding.btnPaginationLast.isEnabled = currentPage != header_wp_totalpages
+            binding.btnPaginationNext.isEnabled = currentPage != header_wp_totalpages
+
         })
     }
 
     override fun onSearchQuerySubmitted(query: String) {
-
+        binding.paginationLayout.visibility = View.GONE
 
         binding.layoutSearchQueryInfo.visibility = View.VISIBLE
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
@@ -95,7 +128,7 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
             } else {
                 binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
             }
-        }, responseHeaderCallback = { header_wp_totalpages ->
+        }, paginationCallback = { header_wp_totalpages ->
             Toast.makeText(activity, ""+ header_wp_totalpages, Toast.LENGTH_SHORT).show()
         })
     }

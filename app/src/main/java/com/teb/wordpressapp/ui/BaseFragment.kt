@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-typealias ResponseHeaderCallback = (header_wp_totalpages : String?) -> Unit
+typealias PaginationCallback = (header_wp_totalpages : Int) -> Unit
 
 
 open class BaseFragment : Fragment() {
@@ -17,16 +17,16 @@ open class BaseFragment : Fragment() {
     var defaultLoadingCallback: LoadingCallback? = null
 
     fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
-        makeCall(successCallback = successCallback, responseHeaderCallback = null)
+        makeCall(successCallback = successCallback, paginationCallback = null)
     }
 
 
-    fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit, responseHeaderCallback: ResponseHeaderCallback? = null) {
+    fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit, paginationCallback: PaginationCallback? = null) {
 
         if (defaultLoadingCallback != null) {
             this.makeCall(toggleLoading = defaultLoadingCallback!!,
                 successCallback = successCallback,
-            responseHeaderCallback = responseHeaderCallback)
+            responseHeaderCallback = paginationCallback)
         } else {
             throw RuntimeException("defaultLoadingCallback != null")
         }
@@ -38,7 +38,7 @@ open class BaseFragment : Fragment() {
     fun <T> Call<T>.makeCall(
         toggleLoading: LoadingCallback,
         successCallback: (result: T) -> Unit,
-        responseHeaderCallback: ResponseHeaderCallback? =null
+        responseHeaderCallback: PaginationCallback? =null
     ) {
 
         toggleLoading(true)
@@ -57,7 +57,12 @@ open class BaseFragment : Fragment() {
                 val list = response.body()
                 val header_wp_totalpages = response.headers().get("x-wp-totalpages")
 
-                responseHeaderCallback?.invoke(header_wp_totalpages)
+                try {
+                    val totalPages = Integer.parseInt(header_wp_totalpages!!)
+                    responseHeaderCallback?.invoke(totalPages)
+
+                } catch (e: Exception) {
+                }
 
                 list?.let {
                     successCallback(it)
