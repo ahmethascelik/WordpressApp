@@ -63,8 +63,9 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
         }
 
         binding.btnClearSearch.setOnClickListener {
-            binding.layoutSearchQueryInfo.visibility = View.GONE
+            adapter.setDataList(emptyList())
             makeInitialRequests()
+            binding.layoutSearchQueryInfo.visibility = View.GONE
         }
     }
 
@@ -80,10 +81,17 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
 
         binding.layoutSearchQueryInfo.visibility = View.VISIBLE
-        binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
+        binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
+        adapter.setDataList(emptyList())
 
         service.getPosts(search = query).makeCall { result: List<PostItem>? ->
             adapter.setDataList(result!!)
+
+            if(result.isEmpty()){
+                binding.txtSearchQuery.text = "\"$query\" için sonuç bulunamadı!"
+            }else{
+                binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
+            }
         }
     }
 }
