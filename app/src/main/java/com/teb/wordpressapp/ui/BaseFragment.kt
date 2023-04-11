@@ -9,16 +9,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+typealias ResponseHeaderCallback = (header_wp_totalpages : String?) -> Unit
+
+
 open class BaseFragment : Fragment() {
 
     var defaultLoadingCallback: LoadingCallback? = null
 
-
     fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
+        makeCall(successCallback = successCallback, responseHeaderCallback = null)
+    }
+
+
+    fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit, responseHeaderCallback: ResponseHeaderCallback? = null) {
 
         if (defaultLoadingCallback != null) {
             this.makeCall(toggleLoading = defaultLoadingCallback!!,
-                successCallback = successCallback)
+                successCallback = successCallback,
+            responseHeaderCallback = responseHeaderCallback)
         } else {
             throw RuntimeException("defaultLoadingCallback != null")
         }
@@ -30,6 +38,7 @@ open class BaseFragment : Fragment() {
     fun <T> Call<T>.makeCall(
         toggleLoading: LoadingCallback,
         successCallback: (result: T) -> Unit,
+        responseHeaderCallback: ResponseHeaderCallback? =null
     ) {
 
         toggleLoading(true)
@@ -46,6 +55,9 @@ open class BaseFragment : Fragment() {
                 toggleLoading(false)
 
                 val list = response.body()
+                val header_wp_totalpages = response.headers().get("x-wp-totalpages")
+
+                responseHeaderCallback?.invoke(header_wp_totalpages)
 
                 list?.let {
                     successCallback(it)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wordpressapp.data.ServiceLocator
@@ -72,9 +73,11 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
     private fun makeInitialRequests() {
 
-        service.getPosts().makeCall { result: List<PostItem>? ->
+        service.getPosts().makeCall(successCallback = { result: List<PostItem>? ->
             adapter.setDataList(result!!)
-        }
+        }, responseHeaderCallback = { header_wp_totalpages ->
+            Toast.makeText(activity, ""+ header_wp_totalpages, Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onSearchQuerySubmitted(query: String) {
@@ -84,14 +87,16 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
         adapter.setDataList(emptyList())
 
-        service.getPosts(search = query).makeCall { result: List<PostItem>? ->
+        service.getPosts(search = query).makeCall( successCallback = { result: List<PostItem>? ->
             adapter.setDataList(result!!)
 
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 binding.txtSearchQuery.text = "\"$query\" için sonuç bulunamadı!"
-            }else{
+            } else {
                 binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
             }
-        }
+        }, responseHeaderCallback = { header_wp_totalpages ->
+            Toast.makeText(activity, ""+ header_wp_totalpages, Toast.LENGTH_SHORT).show()
+        })
     }
 }
