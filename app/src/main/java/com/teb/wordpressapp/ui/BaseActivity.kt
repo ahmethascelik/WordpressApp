@@ -26,11 +26,11 @@ open class BaseActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setStatusBarColor(Color.parseColor(AppConfig.STATUS_BAR_COLOR))
-
-        if (AppConfig.STATUS_BAR_BLACK_TEXT) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+//        setStatusBarColor(Color.parseColor(AppConfig.STATUS_BAR_COLOR))
+//
+//        if (AppConfig.STATUS_BAR_BLACK_TEXT) {
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
 
     }
 

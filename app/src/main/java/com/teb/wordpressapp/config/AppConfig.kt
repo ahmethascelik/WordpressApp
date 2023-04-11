@@ -5,8 +5,6 @@ class AppConfig {
     companion object{
         const val ENDPOINT = "https://minimalistbaker.com/"
         const val LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png"
-        const val STATUS_BAR_COLOR = "#FFDED6"
-        const val STATUS_BAR_BLACK_TEXT: Boolean = true
         const val HIDE_POSTS_FIRST_IMG: Boolean  = true
 
         val WEB_URL_FRAGMENT_CUSTOM_JS =

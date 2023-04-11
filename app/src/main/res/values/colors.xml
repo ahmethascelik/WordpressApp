@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="mb_pink">#FFDED6</color>
+    <color name="mb_orange">#D56638</color>
+    <color name="mb_vivid_red">#cf2e2e</color>
+    <color name="mb_vivid_cyan_blue">#0693e3</color>
+    <color name="mb_vivid_cyan_bluish_gray">#abb8c3</color>
+
+    <color name="post_item_title_color">@color/black</color>
 </resources>
