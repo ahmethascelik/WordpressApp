@@ -64,6 +64,7 @@ class MainActivity : BaseActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
 
+
             override fun onQueryTextChange(s: String?): Boolean {
                 binding.headerImage.visibility = View.GONE
 
@@ -71,16 +72,20 @@ class MainActivity : BaseActivity() {
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.headerImage.visibility = View.VISIBLE
 
                 if(currentFragment is SearchableFragment){
                     (currentFragment as SearchableFragment).onSearchQuerySubmitted(query)
                 }
 
                 searchMenuItem.collapseActionView()
+
+                binding.headerImage.visibility = View.VISIBLE
+
+
                 return false
             }
         })
+
     }
 
 
