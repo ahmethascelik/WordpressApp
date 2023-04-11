@@ -1,11 +1,16 @@
 package com.teb.wordpressapp.ui.screen.main
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.teb.wordpressapp.R
@@ -74,7 +79,31 @@ class MainActivity : BaseActivity() {
 
         replaceFragment(fragment)
 
+        binding.toolbar.inflateMenu(R.menu.main_menu)
+        val myActionMenuItem: MenuItem = binding.toolbar.menu.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.getActionView() as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+
+            override fun onQueryTextChange(s: String?): Boolean {
+                binding.headerImage.visibility = View.GONE
+
+                Log.d("search", "onQueryTextChange : $s")
+
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                Log.d("search", "onQueryTextSubmit : $query")
+                binding.headerImage.visibility = View.VISIBLE
+
+                myActionMenuItem.collapseActionView()
+                return false
+            }
+        })
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
