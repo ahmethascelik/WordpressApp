@@ -68,7 +68,8 @@ class PostDetailActivity : BaseActivity() {
             if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
                 //comments clicked
                 Toast.makeText(this@PostDetailActivity, "Comments Clicked", Toast.LENGTH_LONG).show()
-
+                val commentIntent = Intent(this, CommentActivity::class.java)
+                startActivity(commentIntent)
                 service.getCommentsWithPostId(postId).makeCall { commentList ->
                     Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
 
