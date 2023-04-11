@@ -11,9 +11,11 @@ import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.FragmentPostItemListBinding
 import com.teb.wordpressapp.ui.BaseFragment
+import com.teb.wordpressapp.ui.screen.main.MainActivity
+import com.teb.wordpressapp.ui.screen.main.SearchableFragment
 import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
 
-class PostItemListFragment : BaseFragment() {
+class PostItemListFragment : BaseFragment() , SearchableFragment {
 
     companion object {
         fun newInstance(): PostItemListFragment {
@@ -59,12 +61,28 @@ class PostItemListFragment : BaseFragment() {
                 binding.progressBar.visibility = View.GONE
             }
         }
+
+        binding.btnClearSearch.setOnClickListener {
+            binding.layoutSearchQueryInfo.visibility = View.GONE
+            makeInitialRequests()
+        }
     }
 
 
     private fun makeInitialRequests() {
 
         service.getPosts().makeCall { result: List<PostItem>? ->
+            adapter.setDataList(result!!)
+        }
+    }
+
+    override fun onSearchQuerySubmitted(query: String) {
+
+
+        binding.layoutSearchQueryInfo.visibility = View.VISIBLE
+        binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
+
+        service.getPosts(search = query).makeCall { result: List<PostItem>? ->
             adapter.setDataList(result!!)
         }
     }

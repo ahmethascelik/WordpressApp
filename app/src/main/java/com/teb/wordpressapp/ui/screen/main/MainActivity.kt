@@ -6,10 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -17,7 +15,6 @@ import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
-import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
@@ -28,6 +25,7 @@ import com.teb.wordpressapp.ui.util.loadUrl
 
 class MainActivity : BaseActivity() {
 
+    lateinit var searchMenuItem: MenuItem
     private lateinit var binding: ActivityMainBinding
 
 
@@ -40,26 +38,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         initViews()
-
-        getCategories()
-
     }
-
-    private fun getCategories() {
-        val service = ServiceLocator.providePostService()
-        defaultLoadingCallback = {}
-
-        service.getTopLevelCategories().makeCall {
-            Toast.makeText(this@MainActivity, "size "+ it?.size, Toast.LENGTH_SHORT).show()
-
-            it?.get(2)?.id?.let { it1 -> service.getCategories(it1).makeCall(){
-                innerCat->
-                Toast.makeText(this@MainActivity, "size "+ innerCat?.size, Toast.LENGTH_SHORT).show()
-
-            } }
-        }
-    }
-
 
     private fun initViews() {
 
@@ -80,32 +59,35 @@ class MainActivity : BaseActivity() {
         replaceFragment(fragment)
 
         binding.toolbar.inflateMenu(R.menu.main_menu)
-        val myActionMenuItem: MenuItem = binding.toolbar.menu.findItem(R.id.action_search)
-        val searchView = myActionMenuItem.getActionView() as SearchView
+        searchMenuItem = binding.toolbar.menu.findItem(R.id.action_search)
+        val searchView = searchMenuItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
 
             override fun onQueryTextChange(s: String?): Boolean {
                 binding.headerImage.visibility = View.GONE
 
-                Log.d("search", "onQueryTextChange : $s")
-
                 return false
             }
 
             override fun onQueryTextSubmit(query: String): Boolean {
-
-                Log.d("search", "onQueryTextSubmit : $query")
                 binding.headerImage.visibility = View.VISIBLE
 
-                myActionMenuItem.collapseActionView()
+                if(currentFragment is SearchableFragment){
+                    (currentFragment as SearchableFragment).onSearchQuerySubmitted(query)
+                }
+
+                searchMenuItem.collapseActionView()
                 return false
             }
         })
     }
 
 
+
+    var currentFragment : Fragment? = null
     private fun replaceFragment(fragment: Fragment) {
+        currentFragment = fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment, null)
             .commit()
@@ -136,6 +118,8 @@ class MainActivity : BaseActivity() {
             val navViewLink = dataMap.get(menuItem.title)
 
             navViewLink?.let { navLink ->
+
+                searchMenuItem.isVisible = navLink.actionType == NavLinkActionType.ReturnToHome
 
                 when(navLink.actionType){
                     NavLinkActionType.ReturnToHome -> {
@@ -175,7 +159,6 @@ class MainActivity : BaseActivity() {
         }
 
     }
-
 
 
 }

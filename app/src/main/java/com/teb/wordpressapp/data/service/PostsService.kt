@@ -12,7 +12,8 @@ import retrofit2.http.Query
 interface PostsService {
 
     @GET("wp-json/wp/v2/posts/?_fields=id,yoast_head_json.title,yoast_head_json.description,yoast_head_json.og_image")
-    fun getPosts(): Call<List<PostItem>?>
+    fun getPosts(@Query("search") search : String? = ""): Call<List<PostItem>?>
+
 
 
     @GET("wp-json/wp/v2/posts/{id}")
