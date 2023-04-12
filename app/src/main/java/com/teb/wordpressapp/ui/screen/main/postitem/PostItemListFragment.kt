@@ -67,60 +67,43 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
             binding.layoutSearchQueryInfo.visibility = View.GONE
         }
 
-        binding.btnPaginationFirst.setOnClickListener {
-            gotoPage(1)
-        }
-        binding.btnPaginationLast.setOnClickListener {
-            gotoPage(lastPage)
-        }
-
-        binding.btnPaginationNext.setOnClickListener {
-            gotoPage(currentPage + 1)
-        }
-        binding.btnPaginationPrev.setOnClickListener {
-            gotoPage(currentPage - 1)
-        }
     }
-
-    private fun gotoPage(pageNum: Int) {
-        getPostWithPageNum(pageNum)
-    }
-
-    var currentPage: Int = 1
-    var lastPage: Int = 1
 
     private fun getPostWithPageNum(currentPage: Int) {
 
-        this.currentPage = currentPage
+        binding.paginationView.visibility = View.GONE
 
-        binding.paginationLayout.visibility = View.GONE
+        service.getPosts(page = "" + currentPage)
+            .makeCall(successCallback = { result: List<PostItem>? ->
+                adapter.setDataList(result!!)
+            }, paginationCallback = { header_wp_totalpages ->
 
-        service.getPosts(page = ""+currentPage).makeCall(successCallback = { result: List<PostItem>? ->
-            adapter.setDataList(result!!)
-        }, paginationCallback = { header_wp_totalpages ->
+                binding.paginationView.visibility = View.VISIBLE
 
-            lastPage = header_wp_totalpages
+                binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
 
-            binding.paginationLayout.visibility = View.VISIBLE
+                binding.paginationView.onPageChangeRequestListener = { page ->
+                    getPostWithPageNum(page)
+                }
 
-            binding.txtPaginationInfo.text = "$currentPage/$header_wp_totalpages"
-
-            binding.btnPaginationFirst.isEnabled = 1 != currentPage
-            binding.btnPaginationPrev.isEnabled = 1 != currentPage
-            binding.btnPaginationLast.isEnabled = currentPage != header_wp_totalpages
-            binding.btnPaginationNext.isEnabled = currentPage != header_wp_totalpages
-
-        })
+            })
     }
 
     override fun onSearchQuerySubmitted(query: String) {
-        binding.paginationLayout.visibility = View.GONE
+
+        onSearchQuerySubmitted(1, query)
+
+    }
+
+    fun onSearchQuerySubmitted(currentPage: Int, query: String) {
+
+        binding.paginationView.visibility = View.GONE
 
         binding.layoutSearchQueryInfo.visibility = View.VISIBLE
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
         adapter.setDataList(emptyList())
 
-        service.getPosts(search = query).makeCall( successCallback = { result: List<PostItem>? ->
+        service.getPosts(search = query).makeCall(successCallback = { result: List<PostItem>? ->
             adapter.setDataList(result!!)
 
             if (result.isEmpty()) {
@@ -129,7 +112,14 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
                 binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
             }
         }, paginationCallback = { header_wp_totalpages ->
-            Toast.makeText(activity, ""+ header_wp_totalpages, Toast.LENGTH_SHORT).show()
+            binding.paginationView.visibility = View.VISIBLE
+            binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
+
+            binding.paginationView.onPageChangeRequestListener = { page ->
+                onSearchQuerySubmitted(page, query)
+            }
+
         })
     }
+
 }
