@@ -6,16 +6,19 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.*
 import android.widget.Toast
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.ui.util.Constants
+typealias OnLinkClickListener = (url : String, slug : String, webView : WebView) -> Unit
 
 class WordpressWebView : WebView {
 
     private var hideFirstImage: Boolean = false
+    var onLinkClickListener : OnLinkClickListener? = null
 
     var additionalWebViewOnPageFinishRunnable : AdditionalWebViewOnPageFinishRunnable? = null
 
@@ -68,6 +71,10 @@ class WordpressWebView : WebView {
                     view?.loadUrl("javascript:(function() { document.getElementsByTagName('img')[0].style.display = 'none'; })()");
                 }
 
+                AppConfig.WEB_URL_FRAGMENT_CUSTOM_JS.forEach { code ->
+                    view?.loadUrl("javascript:(function() { "+code+"})()");
+                }
+
                 additionalWebViewOnPageFinishRunnable?.onPageFinished(view, url)
             }
 
@@ -80,7 +87,12 @@ class WordpressWebView : WebView {
 
                 if (url != null && url.startsWith(AppConfig.ENDPOINT)) {
 
-                    return super.shouldOverrideUrlLoading(view, request)
+                    val slug = url.replace(AppConfig.ENDPOINT, "").replace("/", "")
+
+                    onLinkClickListener?.invoke(url, slug, this@WordpressWebView)
+
+                    return true
+//                    return super.shouldOverrideUrlLoading(view, request)
 
                 }else{
 

@@ -80,6 +80,23 @@ class PostDetailActivity : BaseActivity() {
             }
             true
         }
+
+        binding.webView.onLinkClickListener = { url, slug, webview ->
+            service.getPostsOfSlug(slug).makeCall { list->
+
+                if(list != null && list.isNotEmpty()){
+                    val postItem = list[0]
+                    val i = Intent(this, PostDetailActivity::class.java)
+                    i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
+                    startActivity(i)
+                }else{
+                    binding.webView.loadUrl(url)
+                }
+
+
+            }
+
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

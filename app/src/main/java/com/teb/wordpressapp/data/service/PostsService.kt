@@ -20,6 +20,10 @@ interface PostsService {
     fun getPostsOfCategory(@Query("categories") categoryId : String? = "", @Query("page") page : String? = "1"): Call<List<PostItem>?>
 
 
+    @GET("wp-json/wp/v2/posts/?_fields=id,yoast_head_json.title,yoast_head_json.description,yoast_head_json.og_image")
+    fun getPostsOfSlug(@Query("slug") slug : String): Call<List<PostItem>?>
+
+
 
     @GET("wp-json/wp/v2/posts/{id}")
     fun getPostWithId(@Path("id") id: String): Call<PostDetail>

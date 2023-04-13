@@ -50,9 +50,7 @@ class WebUrlFragment : BaseFragment() {
 
         binding.webView.additionalWebViewOnPageFinishRunnable = object : WordpressWebView.AdditionalWebViewOnPageFinishRunnable{
             override fun onPageFinished(view: WebView?, url: String?) {
-                AppConfig.WEB_URL_FRAGMENT_CUSTOM_JS.forEach { code ->
-                    binding.webView.loadUrl("javascript:(function() { "+code+"})()");
-                }
+
 
                 binding.progressBar.visibility = View.GONE
                 binding.webView.visibility = View.VISIBLE
