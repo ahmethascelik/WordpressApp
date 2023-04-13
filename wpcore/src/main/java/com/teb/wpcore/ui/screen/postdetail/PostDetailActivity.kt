@@ -7,7 +7,7 @@ import android.os.Bundle
 
 import android.view.View
 import com.teb.wpcore.R
-import com.teb.wpcore.config.AppConfig
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.databinding.ActivityPostDetailBinding
@@ -106,7 +106,7 @@ class PostDetailActivity : BaseActivity() {
 //            binding.collapsingToolbarLayout.title = postDetail.title()
 
             binding.headerImage.loadUrl(postDetail.imageUrl())
-            binding.webView.loadHtmlContent(postDetail.content(), AppConfig.HIDE_POSTS_FIRST_IMG)
+            binding.webView.loadHtmlContent(postDetail.content(), WordpressConfig.INSTANCE!!.HIDE_POSTS_FIRST_IMG)
         }
 
 

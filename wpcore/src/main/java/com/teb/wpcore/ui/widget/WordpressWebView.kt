@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.*
-import com.teb.wpcore.config.AppConfig
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.ui.util.Constants
 typealias OnLinkClickListener = (url : String, slug : String, webView : WebView) -> Unit
 
@@ -67,7 +67,7 @@ class WordpressWebView : WebView {
                     view?.loadUrl("javascript:(function() { document.getElementsByTagName('img')[0].style.display = 'none'; })()");
                 }
 
-                AppConfig.WEB_URL_FRAGMENT_CUSTOM_JS.forEach { code ->
+                WordpressConfig.INSTANCE!!.WEB_URL_FRAGMENT_CUSTOM_JS.forEach { code ->
                     view?.loadUrl("javascript:(function() { "+code+"})()");
                 }
 
@@ -81,9 +81,9 @@ class WordpressWebView : WebView {
 
                 val url = request?.url?.toString()
 
-                if (url != null && url.startsWith(AppConfig.ENDPOINT)) {
+                if (url != null && url.startsWith(WordpressConfig.INSTANCE!!.ENDPOINT)) {
 
-                    val slug = url.replace(AppConfig.ENDPOINT, "").replace("/", "")
+                    val slug = url.replace(WordpressConfig.INSTANCE!!.ENDPOINT, "").replace("/", "")
 
                     if (onLinkClickListener != null) {
                         onLinkClickListener?.invoke(url, slug, this@WordpressWebView)

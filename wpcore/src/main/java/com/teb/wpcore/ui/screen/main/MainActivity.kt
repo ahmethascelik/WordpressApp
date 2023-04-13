@@ -11,7 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.teb.wpcore.R
-import com.teb.wpcore.config.AppConfig
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
 import com.teb.wpcore.data.model.Category
@@ -42,7 +42,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
     private fun initViews() {
 
-        binding.headerImage.loadUrl(AppConfig.LOGO_URL)
+        binding.headerImage.loadUrl(WordpressConfig.INSTANCE!!.LOGO_URL)
 
         binding.toolbar.setNavigationOnClickListener {
             binding.drawerLayout.open()
@@ -104,7 +104,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
         val dataMap = HashMap<String, NavLink>()
 
-        for (navViewLink in AppConfig.NAV_VIEW_LINKS) {
+        for (navViewLink in WordpressConfig.INSTANCE!!.NAV_VIEW_LINKS) {
             binding.navView.menu.add(navViewLink.title)
             dataMap.put(navViewLink.title, navViewLink)
         }

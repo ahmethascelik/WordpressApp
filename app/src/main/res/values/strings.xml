@@ -1,7 +1,0 @@
-<resources>
-    <string name="network_fail_check_connection">Lütfen internet bağlantınızı kontrol ediniz!</string>
-    <string name="network_fail_try_again_later">Lütfen daha sonra tekrar deneyiniz!</string>
-    <string name="network_fail_something_bad_happened">Bir sorunla karşılaştık, çözmek için uğraşıyoruz. Anlayışınız için teşekkürler!</string>
-    <string name="menu_item_comments">Comments</string>
-    <string name="menu_item_share">Share</string>
-</resources>

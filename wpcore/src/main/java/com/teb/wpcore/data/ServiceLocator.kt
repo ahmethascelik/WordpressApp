@@ -1,7 +1,7 @@
 package com.teb.wpcore.data
 
 import com.teb.wpcore.BuildConfig
-import com.teb.wpcore.config.AppConfig
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.service.PostsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +27,7 @@ class ServiceLocator {
 
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(AppConfig.ENDPOINT).client(okHttpClient.build())
+                .baseUrl(WordpressConfig.INSTANCE!!.ENDPOINT).client(okHttpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
