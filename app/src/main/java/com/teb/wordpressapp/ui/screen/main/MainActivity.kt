@@ -1,6 +1,5 @@
 package com.teb.wordpressapp.ui.screen.main
 
-
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +16,7 @@ import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
+import com.teb.wordpressapp.ui.screen.main.categories.CategoriesFragment
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
@@ -27,8 +27,6 @@ class MainActivity : BaseActivity() {
 
     lateinit var searchMenuItem: MenuItem
     private lateinit var binding: ActivityMainBinding
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,18 +42,12 @@ class MainActivity : BaseActivity() {
 
         binding.headerImage.loadUrl(AppConfig.LOGO_URL)
 
-
         binding.toolbar.setNavigationOnClickListener {
             binding.drawerLayout.open()
         }
-
-
-
         setupMenu()
 
-
         val fragment = PostItemListFragment.newInstance()
-
         replaceFragment(fragment)
 
         binding.toolbar.inflateMenu(R.menu.main_menu)
@@ -104,11 +96,8 @@ class MainActivity : BaseActivity() {
 
         for (navViewLink in AppConfig.NAV_VIEW_LINKS) {
             binding.navView.menu.add(navViewLink.title)
-
             dataMap.put(navViewLink.title, navViewLink)
-
         }
-
 
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             // Handle menu item selected
@@ -132,6 +121,10 @@ class MainActivity : BaseActivity() {
                         val fragment = PostItemListFragment.newInstance()
                         replaceFragment(fragment)
 
+                    }
+                    NavLinkActionType.ShowCategories -> {
+                        val fragment = CategoriesFragment.newInstance()
+                        replaceFragment(fragment)
                     }
                     NavLinkActionType.ShowInWebViewInFragment -> {
 
@@ -157,12 +150,8 @@ class MainActivity : BaseActivity() {
                 }
 
             }
-
-
-
             true
         }
-
     }
 
 
