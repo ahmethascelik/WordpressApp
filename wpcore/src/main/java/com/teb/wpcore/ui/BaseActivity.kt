@@ -8,6 +8,7 @@ import androidx.annotation.ColorInt
 import androidx.fragment.app.FragmentActivity
 import com.google.gson.JsonSyntaxException
 import com.teb.wpcore.R
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.ui.util.ConnectionUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -107,7 +108,7 @@ open class BaseActivity : FragmentActivity() {
 
     private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
         val builder = AlertDialog.Builder(this@BaseActivity)
-//     todo   builder.setTitle(getString(R.string.app_name))
+        builder.setTitle(WordpressConfig.INSTANCE!!.APP_NAME)
         builder.setMessage(message)
 
         builder.setPositiveButton(android.R.string.ok) { dialog, which ->

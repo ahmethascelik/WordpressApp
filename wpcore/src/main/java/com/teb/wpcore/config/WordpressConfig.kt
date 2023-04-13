@@ -1,6 +1,7 @@
 package com.teb.wpcore.config
 
 class WordpressConfig(
+    val APP_NAME: String,
     val ENDPOINT: String,
     val LOGO_URL: String,
     val HIDE_POSTS_FIRST_IMG : Boolean,

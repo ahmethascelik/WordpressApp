@@ -11,6 +11,7 @@ class WordpressApplication : Application() {
         super.onCreate()
 
         WordpressConfig.INSTANCE = WordpressConfig(
+            APP_NAME = getString(R.string.app_name),
             ENDPOINT = "https://minimalistbaker.com/",
             LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png",
             HIDE_POSTS_FIRST_IMG = true,
