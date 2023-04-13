@@ -1,5 +1,6 @@
 package com.teb.wordpressapp.ui.screen.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.teb.wordpressapp.config.AppConfig
+import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.FragmentWebUrlBinding
 import com.teb.wordpressapp.ui.BaseFragment
+import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
 import com.teb.wordpressapp.ui.widget.WordpressWebView
 
 class WebUrlFragment : BaseFragment() {
@@ -26,6 +29,7 @@ class WebUrlFragment : BaseFragment() {
         }
     }
 
+    val service = ServiceLocator.providePostService()
 
     var urlToOpen : String? = null
 
@@ -48,12 +52,38 @@ class WebUrlFragment : BaseFragment() {
 
     private fun initView() {
 
+        defaultLoadingCallback = { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+
         binding.webView.additionalWebViewOnPageFinishRunnable = object : WordpressWebView.AdditionalWebViewOnPageFinishRunnable{
             override fun onPageFinished(view: WebView?, url: String?) {
 
 
                 binding.progressBar.visibility = View.GONE
                 binding.webView.visibility = View.VISIBLE
+
+            }
+
+        }
+
+
+        binding.webView.onLinkClickListener = { url, slug, webview ->
+            service.getPostsOfSlug(slug).makeCall { list->
+
+                if(list != null && list.isNotEmpty()){
+                    val postItem = list[0]
+                    val i = Intent(activity, PostDetailActivity::class.java)
+                    i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
+                    startActivity(i)
+                }else{
+                    binding.webView.loadUrl(url)
+                }
+
 
             }
 

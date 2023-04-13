@@ -89,10 +89,13 @@ class WordpressWebView : WebView {
 
                     val slug = url.replace(AppConfig.ENDPOINT, "").replace("/", "")
 
-                    onLinkClickListener?.invoke(url, slug, this@WordpressWebView)
+                    if (onLinkClickListener != null) {
+                        onLinkClickListener?.invoke(url, slug, this@WordpressWebView)
+                        return true
+                    }else{
+                        return super.shouldOverrideUrlLoading(view, request)
+                    }
 
-                    return true
-//                    return super.shouldOverrideUrlLoading(view, request)
 
                 }else{
 
