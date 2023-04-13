@@ -55,6 +55,9 @@ class PaginationView : RelativeLayout {
             gotoPage(currentPage - 1)
         }
 
+        if (!isInEditMode) {
+            this.visibility = View.GONE
+        }
 
     }
 

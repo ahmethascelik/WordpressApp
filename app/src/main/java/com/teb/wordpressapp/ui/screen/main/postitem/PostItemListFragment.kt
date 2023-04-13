@@ -71,14 +71,10 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
     private fun getPostWithPageNum(currentPage: Int) {
 
-        binding.paginationView.visibility = View.GONE
-
         service.getPosts(page = "" + currentPage)
             .makeCall(successCallback = { result: List<PostItem>? ->
                 adapter.setDataList(result!!)
             }, paginationCallback = { header_wp_totalpages ->
-
-                binding.paginationView.visibility = View.VISIBLE
 
                 binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
 
@@ -97,8 +93,6 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
     fun onSearchQuerySubmitted(currentPage: Int, query: String) {
 
-        binding.paginationView.visibility = View.GONE
-
         binding.layoutSearchQueryInfo.visibility = View.VISIBLE
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
         adapter.setDataList(emptyList())
@@ -112,7 +106,7 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
                 binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
             }
         }, paginationCallback = { header_wp_totalpages ->
-            binding.paginationView.visibility = View.VISIBLE
+
             binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
 
             binding.paginationView.onPageChangeRequestListener = { page ->
