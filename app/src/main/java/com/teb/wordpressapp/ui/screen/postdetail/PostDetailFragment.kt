@@ -8,7 +8,6 @@ import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.FragmentPostDetailBinding
 import com.teb.wordpressapp.ui.BaseFragment
-import com.teb.wordpressapp.ui.util.loadHtmlContent
 
 class PostDetailFragment : BaseFragment() {
 

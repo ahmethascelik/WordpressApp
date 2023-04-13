@@ -8,7 +8,6 @@ import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
 import com.teb.wordpressapp.ui.BaseActivity
-import com.teb.wordpressapp.ui.util.loadHtmlContent
 import com.teb.wordpressapp.ui.util.loadUrl
 
 

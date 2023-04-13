@@ -10,6 +10,7 @@ import android.webkit.WebViewClient
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.databinding.FragmentWebUrlBinding
 import com.teb.wordpressapp.ui.BaseFragment
+import com.teb.wordpressapp.ui.widget.WordpressWebView
 
 class WebUrlFragment : BaseFragment() {
 
@@ -46,36 +47,19 @@ class WebUrlFragment : BaseFragment() {
     }
 
     private fun initView() {
-        binding.webView.settings.javaScriptEnabled = true
-        binding.webView.webViewClient =  object : WebViewClient() {
 
-            override fun onPageFinished(view: WebView, url: String) {
-
+        binding.webView.additionalWebViewOnPageFinishRunnable = object : WordpressWebView.AdditionalWebViewOnPageFinishRunnable{
+            override fun onPageFinished(view: WebView?, url: String?) {
                 AppConfig.WEB_URL_FRAGMENT_CUSTOM_JS.forEach { code ->
                     binding.webView.loadUrl("javascript:(function() { "+code+"})()");
                 }
-
 
                 binding.progressBar.visibility = View.GONE
                 binding.webView.visibility = View.VISIBLE
 
             }
+
         }
-
-        binding.webView.setOnKeyListener(object : View.OnKeyListener {
-            override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                if (event.action == KeyEvent.ACTION_DOWN
-                    && keyCode == KeyEvent.KEYCODE_BACK) {
-
-                    if (binding.webView.canGoBack()) {
-                        binding.webView.goBack()
-                        return true
-                    }
-                }
-                return false
-            }
-        })
-
 
 
         urlToOpen?.let {
