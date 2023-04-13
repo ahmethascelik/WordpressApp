@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.RecyclerView
 import com.teb.wpcore.data.model.Comment
-import com.teb.wordpressapp.databinding.ListItemPostBinding
+import com.teb.wpcore.databinding.ListItemPostBinding
 import com.teb.wpcore.ui.util.loadUrl
 
 class CommentItemsAdapter : RecyclerView.Adapter<CommentItemsAdapter.CommentItemViewHolder>() {

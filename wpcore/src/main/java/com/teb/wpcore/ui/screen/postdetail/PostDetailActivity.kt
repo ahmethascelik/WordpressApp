@@ -6,11 +6,11 @@ import android.os.Bundle
 
 
 import android.view.View
-import com.teb.wordpressapp.R
+import com.teb.wpcore.R
 import com.teb.wpcore.config.AppConfig
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
-import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
+import com.teb.wpcore.databinding.ActivityPostDetailBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.CommentsActivity
 import com.teb.wpcore.ui.util.loadUrl

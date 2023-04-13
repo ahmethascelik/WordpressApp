@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teb.wpcore.data.model.Category
-import com.teb.wordpressapp.databinding.ListItemCategoryBinding
+import com.teb.wpcore.databinding.ListItemCategoryBinding
 
 typealias OnCategoriesItemClickListener = (category: Category) -> Unit
 

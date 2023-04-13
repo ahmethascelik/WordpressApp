@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import com.teb.wpcore.data.ServiceLocator
-import com.teb.wordpressapp.databinding.FragmentWebUrlBinding
+import com.teb.wpcore.databinding.FragmentWebUrlBinding
 import com.teb.wpcore.ui.BaseFragment
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
 import com.teb.wpcore.ui.widget.WordpressWebView

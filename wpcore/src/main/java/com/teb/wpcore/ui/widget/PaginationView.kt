@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
-import com.teb.wordpressapp.databinding.ViewPaginationBinding
+import com.teb.wpcore.databinding.ViewPaginationBinding
 
 typealias OnPageChangeRequestListener = (page : Int) -> Unit
 

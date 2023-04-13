@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
-import com.teb.wordpressapp.databinding.FragmentCategoryListBinding
+import com.teb.wpcore.databinding.FragmentCategoryListBinding
 import com.teb.wpcore.ui.BaseFragment
 
 class CategoriesFragment: BaseFragment() {

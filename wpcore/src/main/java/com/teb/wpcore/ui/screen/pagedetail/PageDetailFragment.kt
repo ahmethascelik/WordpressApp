@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
-import com.teb.wordpressapp.databinding.FragmentPageDetailBinding
+import com.teb.wpcore.databinding.FragmentPageDetailBinding
 import com.teb.wpcore.ui.BaseFragment
 
 class PageDetailFragment : BaseFragment() {

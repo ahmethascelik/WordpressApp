@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.data.model.PostItem
-import com.teb.wordpressapp.databinding.FragmentPostItemListBinding
+import com.teb.wpcore.databinding.FragmentPostItemListBinding
 import com.teb.wpcore.ui.BaseFragment
 import com.teb.wpcore.ui.screen.main.SearchableFragment
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity

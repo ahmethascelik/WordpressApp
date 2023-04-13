@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.teb.wpcore.data.model.PostItem
-import com.teb.wordpressapp.databinding.ListItemPostBinding
+import com.teb.wpcore.databinding.ListItemPostBinding
 import com.teb.wpcore.ui.util.loadUrl
 
 typealias OnPostItemClickListener = (postItem: PostItem) -> Unit

@@ -10,12 +10,12 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import com.teb.wordpressapp.R
+import com.teb.wpcore.R
 import com.teb.wpcore.config.AppConfig
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
 import com.teb.wpcore.data.model.Category
-import com.teb.wordpressapp.databinding.ActivityMainBinding
+import com.teb.wpcore.databinding.ActivityMainBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
 import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListenerActivity

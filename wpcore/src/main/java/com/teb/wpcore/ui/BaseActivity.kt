@@ -1,32 +1,50 @@
 package com.teb.wpcore.ui
 
 import android.app.AlertDialog
-import androidx.fragment.app.Fragment
+import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
+import androidx.annotation.ColorInt
+import androidx.fragment.app.FragmentActivity
 import com.google.gson.JsonSyntaxException
-import com.teb.wordpressapp.R
+import com.teb.wpcore.R
 import com.teb.wpcore.ui.util.ConnectionUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-typealias PaginationCallback = (header_wp_totalpages : Int) -> Unit
 
+typealias LoadingCallback = (isLoading: Boolean) -> Unit
+typealias TryAgainCallback = () -> Unit
 
-open class BaseFragment : Fragment() {
+open class BaseActivity : FragmentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+//        setStatusBarColor(Color.parseColor(AppConfig.STATUS_BAR_COLOR))
+//
+//        if (AppConfig.STATUS_BAR_BLACK_TEXT) {
+//            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
+
+    }
+
+    private fun setStatusBarColor(@ColorInt color: Int) {
+        val window: Window = window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.setStatusBarColor(color)
+
+    }
 
     var defaultLoadingCallback: LoadingCallback? = null
 
+
     fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
-        makeCall(successCallback = successCallback, paginationCallback = null)
-    }
-
-
-    fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit, paginationCallback: PaginationCallback? = null) {
 
         if (defaultLoadingCallback != null) {
             this.makeCall(toggleLoading = defaultLoadingCallback!!,
-                successCallback = successCallback,
-            responseHeaderCallback = paginationCallback)
+                successCallback = successCallback)
         } else {
             throw RuntimeException("defaultLoadingCallback != null")
         }
@@ -38,14 +56,13 @@ open class BaseFragment : Fragment() {
     fun <T> Call<T>.makeCall(
         toggleLoading: LoadingCallback,
         successCallback: (result: T) -> Unit,
-        responseHeaderCallback: PaginationCallback? =null
     ) {
 
         toggleLoading(true)
 
         this.enqueue(object : Callback<T> {
 
-            val connectionUtil = ConnectionUtil(requireActivity())
+            val connectionUtil = ConnectionUtil(this@BaseActivity)
 
 
             override fun onResponse(
@@ -55,14 +72,6 @@ open class BaseFragment : Fragment() {
                 toggleLoading(false)
 
                 val list = response.body()
-                val header_wp_totalpages = response.headers().get("x-wp-totalpages")
-
-                try {
-                    val totalPages = Integer.parseInt(header_wp_totalpages!!)
-                    responseHeaderCallback?.invoke(totalPages)
-
-                } catch (e: Exception) {
-                }
 
                 list?.let {
                     successCallback(it)
@@ -97,8 +106,8 @@ open class BaseFragment : Fragment() {
     }
 
     private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
-        val builder = AlertDialog.Builder(this.activity)
-        builder.setTitle(getString(R.string.app_name))
+        val builder = AlertDialog.Builder(this@BaseActivity)
+//     todo   builder.setTitle(getString(R.string.app_name))
         builder.setMessage(message)
 
         builder.setPositiveButton(android.R.string.ok) { dialog, which ->
@@ -114,3 +123,4 @@ open class BaseFragment : Fragment() {
     }
 
 }
+

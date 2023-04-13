@@ -1,6 +1,6 @@
 package com.teb.wpcore.data
 
-import com.teb.wordpressapp.BuildConfig
+import com.teb.wpcore.BuildConfig
 import com.teb.wpcore.config.AppConfig
 import com.teb.wpcore.data.service.PostsService
 import okhttp3.OkHttpClient
