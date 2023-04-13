@@ -1,7 +1,7 @@
 package com.teb.wordpressapp.ui.screen.main
 
-import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.databinding.FragmentWebUrlBinding
-
 import com.teb.wordpressapp.ui.BaseFragment
 
 class WebUrlFragment : BaseFragment() {
@@ -34,7 +33,7 @@ class WebUrlFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentWebUrlBinding.inflate(inflater, container, false)
 
@@ -62,11 +61,30 @@ class WebUrlFragment : BaseFragment() {
 
             }
         }
+
+        binding.webView.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                if (event.action == KeyEvent.ACTION_DOWN
+                    && keyCode == KeyEvent.KEYCODE_BACK) {
+
+                    if (binding.webView.canGoBack()) {
+                        binding.webView.goBack()
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+
+
+
         urlToOpen?.let {
             binding.webView.loadUrl(it)
             binding.progressBar.visibility = View.VISIBLE
             binding.webView.visibility = View.GONE
         }
 
+
     }
+
 }
