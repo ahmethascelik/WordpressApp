@@ -1,8 +1,14 @@
 package com.teb.wordpressapp.ui.screen.postdetail
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+
+
+import android.util.Log
+import android.view.MenuItem
+
 import android.view.View
 import android.widget.Toast
 import com.teb.wordpressapp.R
@@ -11,6 +17,7 @@ import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.data.model.PostDetail
 import com.teb.wordpressapp.databinding.ActivityPostDetailBinding
 import com.teb.wordpressapp.ui.BaseActivity
+import com.teb.wordpressapp.ui.CommentsActivity
 import com.teb.wordpressapp.ui.util.loadHtmlContent
 import com.teb.wordpressapp.ui.util.loadUrl
 
@@ -62,29 +69,18 @@ class PostDetailActivity : BaseActivity() {
 
         binding.toolbar.setOnMenuItemClickListener { clickedMenuItem ->
             if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
-                //comments clicked
-                Toast.makeText(this@PostDetailActivity, "Comments Clicked", Toast.LENGTH_LONG).show()
-
-                service.getCommentsWithPostId(postId).makeCall { commentList ->
-                    Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
-
-
-
-                }
-
-
+                val intent = Intent(this@PostDetailActivity, CommentsActivity::class.java)
+                intent.putExtra(CommentsActivity.EXTRA_COMMENT_ID, postId)
+                startActivity(intent)
             } else if (getString(R.string.menu_item_share).equals(clickedMenuItem.title)) {
-                //share clicked
-                Toast.makeText(this@PostDetailActivity, "Share Clicked: " + postDetail?.link, Toast.LENGTH_LONG).show()
-
-                //postDetail?.link
-
+                val intent= Intent()
+                intent.action=Intent.ACTION_SEND
+                intent.putExtra(Intent.EXTRA_TEXT,"${postDetail?.link}")
+                intent.type="text/plain"
+                startActivity(Intent.createChooser(intent,"Share To:"))
             }
-
             true
         }
-
-
     }
 
     @SuppressLint("SetJavaScriptEnabled")

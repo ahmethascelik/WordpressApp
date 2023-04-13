@@ -24,8 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.screen.postdetail.PostDetailActivity" />
         <activity android:name=".ui.screen.pagedetail.PageDetailActivity" />
+        <activity android:name=".ui.CommentsActivity" />
+
     </application>
 
 </manifest>
