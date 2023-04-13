@@ -86,11 +86,19 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
 
     var currentFragment : Fragment? = null
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment,
+                                addToBackStackTag : String? = null) {
         currentFragment = fragment
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment, null)
-            .commit()
+        val fragmentTransaction =  supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment, null) ;
+
+        if(addToBackStackTag != null) {
+            fragmentTransaction.addToBackStack(addToBackStackTag)
+        }else{
+            supportFragmentManager.popBackStack()
+        }
+
+        fragmentTransaction.commit()
     }
 
     private fun setupMenu() {
@@ -160,7 +168,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
     override fun onCategorySelected(category: Category) {
 
         val fragment = PostItemListFragment.newInstance(category)
-        replaceFragment(fragment)
+        replaceFragment(fragment, "category")
     }
 
 
