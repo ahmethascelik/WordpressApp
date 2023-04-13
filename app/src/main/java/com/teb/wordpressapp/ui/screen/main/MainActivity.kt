@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -14,16 +15,18 @@ import com.teb.wordpressapp.R
 import com.teb.wordpressapp.config.AppConfig
 import com.teb.wordpressapp.config.NavLink
 import com.teb.wordpressapp.config.NavLinkActionType
+import com.teb.wordpressapp.data.model.Category
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
 import com.teb.wordpressapp.ui.screen.main.categories.CategoriesFragment
+import com.teb.wordpressapp.ui.screen.main.categories.CategoryListFragmentActionListenerActivity
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
 import com.teb.wordpressapp.ui.util.loadUrl
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity {
 
     lateinit var searchMenuItem: MenuItem
     private lateinit var binding: ActivityMainBinding
@@ -152,6 +155,12 @@ class MainActivity : BaseActivity() {
             }
             true
         }
+    }
+
+    override fun onCategorySelected(category: Category) {
+
+        val fragment = PostItemListFragment.newInstance(category)
+        replaceFragment(fragment)
     }
 
 

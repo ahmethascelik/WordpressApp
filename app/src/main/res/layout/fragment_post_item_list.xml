@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
+    <LinearLayout
+        android:id="@+id/layoutCategoryInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+
+        <TextView
+            android:id="@+id/txtCategoryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Latin inspired"
+            android:textStyle="bold"
+            android:drawablePadding="4dp"
+            android:gravity="bottom"
+            android:textSize="16sp"
+            android:textColor="?attr/colorPrimary"
+            android:drawableTint="?attr/colorPrimary"
+            android:drawableLeft="@drawable/ic_baseline_category_24" />
+
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layoutSearchQueryInfo"
         android:layout_width="match_parent"

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.FragmentCategoryListBinding
 import com.teb.wordpressapp.ui.BaseFragment
+import com.teb.wordpressapp.ui.screen.main.MainActivity
 
 class CategoriesFragment: BaseFragment() {
 
@@ -69,6 +71,13 @@ class CategoriesFragment: BaseFragment() {
                 Toast.makeText(activity, "size "+ innerCat?.size, Toast.LENGTH_SHORT).show()
 
             } }*/
+        }
+
+        adapter.postItemTitleClickListener = { category ->
+
+            if (activity is CategoryListFragmentActionListenerActivity) {
+                (activity as CategoryListFragmentActionListenerActivity).onCategorySelected(category)
+            }
         }
     }
 }

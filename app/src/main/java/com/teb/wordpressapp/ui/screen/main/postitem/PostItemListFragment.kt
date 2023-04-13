@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wordpressapp.data.ServiceLocator
+import com.teb.wordpressapp.data.model.Category
 import com.teb.wordpressapp.data.model.PostItem
 import com.teb.wordpressapp.databinding.FragmentPostItemListBinding
 import com.teb.wordpressapp.ui.BaseFragment
@@ -16,12 +17,24 @@ import com.teb.wordpressapp.ui.screen.postdetail.PostDetailActivity
 
 class PostItemListFragment : BaseFragment() , SearchableFragment {
 
+
+
     companion object {
-        fun newInstance(): PostItemListFragment {
-            return PostItemListFragment()
+
+        const val ARG_CATEGORY  = "ARG_CATEGORY"
+
+        fun newInstance(category: Category? = null): PostItemListFragment{
+            val args = Bundle()
+
+            args.putParcelable(ARG_CATEGORY, category)
+
+            val fragment = PostItemListFragment()
+            fragment.arguments = args
+            return fragment
         }
     }
 
+    private var category: Category? = null
     val service = ServiceLocator.providePostService()
 
 
@@ -32,6 +45,12 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        arguments?.let {  arg->
+            category= arg.getParcelable(ARG_CATEGORY)
+        }
+
+
         binding = FragmentPostItemListBinding.inflate(layoutInflater, container, false)
         initView()
         getPostWithPageNum(1)
@@ -65,6 +84,11 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
             adapter.setDataList(emptyList())
             getPostWithPageNum(1)
             binding.layoutSearchQueryInfo.visibility = View.GONE
+        }
+
+        category?.let {
+            binding.layoutCategoryInfo.visibility = View.VISIBLE
+            binding.txtCategoryTitle.text = it.name
         }
 
     }
