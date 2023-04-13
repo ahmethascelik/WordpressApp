@@ -53,7 +53,11 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
         binding = FragmentPostItemListBinding.inflate(layoutInflater, container, false)
         initView()
-        getPostWithPageNum(1)
+        if (category != null) {
+            getPostOfCategoryWithPageNum(1)
+        }else{
+            getPostWithPageNum(1)
+        }
 
         return binding.root
     }
@@ -104,6 +108,21 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
                 binding.paginationView.onPageChangeRequestListener = { page ->
                     getPostWithPageNum(page)
+                }
+
+            })
+    }
+    private fun getPostOfCategoryWithPageNum(currentPage: Int) {
+
+        service.getPostsOfCategory(categoryId = category?.id ,page = "" + currentPage)
+            .makeCall(successCallback = { result: List<PostItem>? ->
+                adapter.setDataList(result!!)
+            }, paginationCallback = { header_wp_totalpages ->
+
+                binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
+
+                binding.paginationView.onPageChangeRequestListener = { page ->
+                    getPostOfCategoryWithPageNum(page)
                 }
 
             })
