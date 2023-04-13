@@ -56,10 +56,16 @@ class WebUrlFragment : BaseFragment() {
                     binding.webView.loadUrl("javascript:(function() { "+code+"})()");
                 }
 
+
+                binding.progressBar.visibility = View.GONE
+                binding.webView.visibility = View.VISIBLE
+
             }
         }
         urlToOpen?.let {
             binding.webView.loadUrl(it)
+            binding.progressBar.visibility = View.VISIBLE
+            binding.webView.visibility = View.GONE
         }
 
     }
