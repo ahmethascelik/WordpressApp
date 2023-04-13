@@ -74,7 +74,7 @@
         android:indeterminate="true"
         />
 
-    <com.teb.wordpressapp.ui.widget.PaginationView
+    <com.teb.wpcore.ui.widget.PaginationView
         android:id="@+id/paginationView"
         android:layout_width="match_parent"
         android:layout_height="48dp"

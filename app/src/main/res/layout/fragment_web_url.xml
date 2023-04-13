@@ -14,7 +14,7 @@
         />
 
 
-    <com.teb.wordpressapp.ui.widget.WordpressWebView
+    <com.teb.wpcore.ui.widget.WordpressWebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
