@@ -1,6 +1,7 @@
 package com.teb.wordpressapp
 
 import android.app.Application
+import com.minimalistbaker.app.R
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
 import com.teb.wpcore.config.WordpressConfig
