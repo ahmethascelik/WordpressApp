@@ -1,5 +1,6 @@
 package com.teb.wpcore.ui
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.htmlEncode
@@ -31,7 +32,7 @@ class CommentItemsAdapter : RecyclerView.Adapter<CommentItemsAdapter.CommentItem
 
         holder.binding.apply {
             txtTitle.text = commentItem.author_name
-            txtExcerpt.text = commentItem.content?.rendered?.htmlEncode()
+            txtExcerpt.setText(Html.fromHtml(Html.fromHtml(commentItem.content?.rendered).toString()))
             image.loadUrl(commentItem.author_avatar_urls?.get("96"))
         }
     }
