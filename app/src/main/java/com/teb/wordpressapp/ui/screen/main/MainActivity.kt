@@ -115,6 +115,12 @@ class MainActivity : BaseActivity() {
                         replaceFragment(fragment)
 
                     }
+                    NavLinkActionType.OpenCategories -> {
+
+                        val fragment = CategoryFragment.newInstance()
+                        replaceFragment(fragment)
+
+                    }
                     NavLinkActionType.ShowInWebViewInFragment -> {
 
                         val fragment = WebUrlFragment.newInstance(navViewLink.data!!)

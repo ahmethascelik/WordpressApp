@@ -12,5 +12,5 @@ data class NavLink(
     val actionType: NavLinkActionType
     )
 enum class NavLinkActionType{
-     ReturnToHome, ShowInWebViewInFragment, OpenInWebBrowser, OpenPageDetailInFragment, OpenPageDetailInNewActivity
+     ReturnToHome, ShowInWebViewInFragment, OpenInWebBrowser, OpenPageDetailInFragment, OpenPageDetailInNewActivity, OpenCategories
 }

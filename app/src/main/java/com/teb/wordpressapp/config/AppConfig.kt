@@ -17,6 +17,7 @@ class AppConfig {
 
         var NAV_VIEW_LINKS= listOf(
             NavLink(title = "Home", data = null, actionType = NavLinkActionType.ReturnToHome ),
+            NavLink(title= "Categories", data = null, actionType = NavLinkActionType.OpenCategories),
             NavLink(title = "About", data = "5", actionType = NavLinkActionType.OpenPageDetailInFragment ),
             NavLink(title = "Shop", data = "https://minimalistbaker.com/shop/", actionType = NavLinkActionType.ShowInWebViewInFragment ),
             NavLink(title = "Our Baking Mixes", data = "https://shop.minimalistbaker.com/", actionType = NavLinkActionType.OpenInWebBrowser ),
