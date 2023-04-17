@@ -69,13 +69,11 @@ class PostDetailActivity : BaseActivity() {
                 //comments clicked
                 Toast.makeText(this@PostDetailActivity, "Comments Clicked", Toast.LENGTH_LONG).show()
                 val commentIntent = Intent(this, CommentActivity::class.java)
+                commentIntent.putExtra(CommentActivity.EXTRA_COMMENT_ID, postId)
                 startActivity(commentIntent)
-                service.getCommentsWithPostId(postId).makeCall { commentList ->
-                    Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
-
-
-
-                }
+//                service.getCommentsWithPostId(postId).makeCall { commentList ->
+//                    Toast.makeText(this@PostDetailActivity, "Comments Size: "+ commentList?.size , Toast.LENGTH_LONG).show()
+//                }
 
 
             } else if (getString(R.string.menu_item_share).equals(clickedMenuItem.title)) {
