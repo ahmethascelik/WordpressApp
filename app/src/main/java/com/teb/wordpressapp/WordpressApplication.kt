@@ -14,7 +14,7 @@ class WordpressApplication : Application() {
         WordpressConfig.INSTANCE = WordpressConfig(
             APP_NAME = getString(R.string.app_name),
             ENDPOINT = "https://pinchofyum.com/",
-            LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png",
+            LOGO_URL = "https://pinchofyum.com/wp-content/uploads/cropped-Pinch-of-Yum-Favicon-512.png",
             HIDE_POSTS_FIRST_IMG = true,
             WEB_URL_FRAGMENT_CUSTOM_JS =
             listOf("document.getElementsByTagName('header')[0].style.display = 'none'; ",
