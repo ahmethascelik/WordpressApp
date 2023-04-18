@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Minimalist Baker</string>
+<!--    <string name="admob_pub_id" tools:ignore="ExtraTranslation">ca-app-pub-9298171139661017~3089891053</string>-->
+    <string name="admob_pub_id" tools:ignore="ExtraTranslation">ca-app-pub-3940256099942544~3347511713</string>
 
 </resources>

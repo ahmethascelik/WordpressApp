@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WordpressApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_pub_id"/>
+
         <activity
             android:name="com.teb.wpcore.ui.screen.main.MainActivity"
             android:exported="true">

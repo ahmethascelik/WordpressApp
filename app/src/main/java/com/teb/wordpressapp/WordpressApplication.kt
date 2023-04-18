@@ -16,6 +16,7 @@ class WordpressApplication : Application() {
             ENDPOINT = "https://minimalistbaker.com/",
             LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png",
             HIDE_POSTS_FIRST_IMG = true,
+            MAIN_ADD_UNIT_ID = "ca-app-pub-9298171139661017/6450551567",
             WEB_URL_FRAGMENT_CUSTOM_JS =
             listOf("document.getElementsByTagName('header')[0].style.display = 'none'; ",
                 "document.getElementsByClassName('top-bar')[0].style.display='none';"),

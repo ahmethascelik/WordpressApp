@@ -7,13 +7,19 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.teb.wpcore.BuildConfig
 import com.teb.wpcore.R
-import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
+import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.databinding.ActivityMainBinding
 import com.teb.wpcore.ui.BaseActivity
@@ -38,6 +44,34 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         setContentView(binding.root)
 
         initViews()
+        initAds()
+
+    }
+
+    private fun initAds() {
+        if ( WordpressConfig.INSTANCE!!.MAIN_ADD_UNIT_ID != null) {
+            MobileAds.initialize(this) {}
+
+            val mAdView = AdView(this)
+            mAdView.setAdSize(AdSize.LARGE_BANNER)
+            if (BuildConfig.DEBUG) {
+                // ad unit id for testing
+                mAdView.adUnitId = "ca-app-pub-3940256099942544/6300978111"
+            } else {
+                mAdView.adUnitId = WordpressConfig.INSTANCE!!.MAIN_ADD_UNIT_ID!!
+            }
+
+            val dp = resources.displayMetrics.density.toInt()
+            mAdView.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+
+            (mAdView.layoutParams as LinearLayout.LayoutParams).topMargin = 32 * dp
+
+            binding.linearLayout.addView(mAdView, 0)
+
+
+            val adRequest = AdRequest.Builder().build()
+            mAdView.loadAd(adRequest)
+        }
     }
 
     private fun initViews() {
@@ -85,8 +119,10 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
 
     var currentFragment : Fragment? = null
-    private fun replaceFragment(fragment: Fragment,
-                                addToBackStackTag : String? = null) {
+    private fun replaceFragment(
+        fragment: Fragment,
+        addToBackStackTag: String? = null,
+    ) {
         currentFragment = fragment
         val fragmentTransaction =  supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment, null) ;
