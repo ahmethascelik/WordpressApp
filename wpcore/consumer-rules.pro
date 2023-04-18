@@ -1,0 +1,1 @@
+-keep class com.teb.wpcore.data.model.** { *; }
