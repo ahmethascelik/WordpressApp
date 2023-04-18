@@ -23,4 +23,14 @@ class StoragePersistance : Persistance {
 
         return sharedPreferences.getInt(KEY_PAGE_COUNT, 0)
     }
+
+    override fun addToFavoritePostsList(context: Context, slug: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCommaSeperatedSlugsForFavoritePostsList(context: Context): String {
+        TODO("Not yet implemented")
+    }
+
+
 }

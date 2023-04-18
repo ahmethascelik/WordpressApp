@@ -44,7 +44,7 @@ class ServiceLocator {
 
 
         fun providePersistance() : Persistance {
-            return StoragePersistance()
+            return memoryPersistance
         }
     }
 }

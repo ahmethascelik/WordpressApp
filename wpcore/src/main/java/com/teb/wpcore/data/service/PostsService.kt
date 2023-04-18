@@ -19,6 +19,9 @@ interface PostsService {
     @GET("wp-json/wp/v2/posts/?_fields=id,yoast_head_json.title,yoast_head_json.description,yoast_head_json.og_image")
     fun getPostsOfCategory(@Query("categories") categoryId : String? = "", @Query("page") page : String? = "1"): Call<List<PostItem>?>
 
+    @GET("wp-json/wp/v2/posts/?_fields=id,yoast_head_json.title,yoast_head_json.description,yoast_head_json.og_image")
+    fun getPostsOfSlugsCommaSeperated(@Query("slug") slugsCommaSeperated : String? = "", @Query("page") page : String? = "1"): Call<List<PostItem>?>
+
 
     @GET("wp-json/wp/v2/posts/?_fields=id,yoast_head_json.title,yoast_head_json.description,yoast_head_json.og_image")
     fun getPostsOfSlug(@Query("slug") slug : String): Call<List<PostItem>?>

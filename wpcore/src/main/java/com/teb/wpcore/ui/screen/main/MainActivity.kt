@@ -52,6 +52,25 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         initAds()
 
 
+        testService()
+
+
+
+    }
+
+    private fun testService() {
+
+        val service = ServiceLocator.providePostService()
+        defaultLoadingCallback = {}
+
+        persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
+        persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
+
+        val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+
+        service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
+            Toast.makeText(this@MainActivity, "list"+ list?.size, Toast.LENGTH_SHORT).show()
+        }
 
     }
 
