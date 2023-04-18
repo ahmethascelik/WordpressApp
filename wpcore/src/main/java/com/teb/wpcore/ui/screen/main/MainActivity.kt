@@ -5,9 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -20,7 +22,9 @@ import com.teb.wpcore.R
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
 import com.teb.wpcore.config.WordpressConfig
+import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.Category
+import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityMainBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
@@ -33,6 +37,7 @@ import com.teb.wpcore.ui.util.loadUrl
 
 class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity {
 
+    private var admobView: AdView? = null
     lateinit var searchMenuItem: MenuItem
     private lateinit var binding: ActivityMainBinding
 
@@ -46,9 +51,30 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         initViews()
         initAds()
 
+
+
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        persistance.incrementPageViewCount(this)
+
+        Log.d("pageView", "pageView: "+ persistance.getPageViewCount(this))
+
+        if (persistance.getPageViewCount(this) % 4 == 0) {
+            admobView?.visibility = View.VISIBLE
+        }else{
+            admobView?.visibility = View.GONE
+        }
+
+    }
+
+    val persistance : Persistance = ServiceLocator.providePersistance()
+
     private fun initAds() {
+
+
         if ( WordpressConfig.INSTANCE!!.MAIN_ADD_UNIT_ID != null) {
             MobileAds.initialize(this) {}
 
@@ -66,6 +92,9 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
             (mAdView.layoutParams as LinearLayout.LayoutParams).topMargin = 32 * dp
 
+            mAdView.visibility = View.GONE
+
+            admobView = mAdView
             binding.linearLayout.addView(mAdView, 0)
 
 

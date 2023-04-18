@@ -2,6 +2,9 @@ package com.teb.wpcore.data
 
 import com.teb.wpcore.BuildConfig
 import com.teb.wpcore.config.WordpressConfig
+import com.teb.wpcore.data.persitance.MemoryPersistance
+import com.teb.wpcore.data.persitance.Persistance
+import com.teb.wpcore.data.persitance.StoragePersistance
 import com.teb.wpcore.data.service.PostsService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -12,6 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ServiceLocator {
 
     companion object {
+        val memoryPersistance = MemoryPersistance()
 
         fun providePostService(): PostsService {
 
@@ -35,6 +39,12 @@ class ServiceLocator {
 
             return retrofit.create(PostsService::class.java)
 
+        }
+
+
+
+        fun providePersistance() : Persistance {
+            return StoragePersistance()
         }
     }
 }
