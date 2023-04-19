@@ -17,6 +17,9 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.teb.wpcore.BuildConfig
 import com.teb.wpcore.R
 import com.teb.wpcore.config.NavLink
@@ -32,6 +35,7 @@ import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListen
 import com.teb.wpcore.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailFragment
+import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
 import com.teb.wpcore.ui.util.loadUrl
 
 
@@ -52,27 +56,70 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         initAds()
 
 
-        testService()
-
+        handleDeeplinks()
+//        testService()
+//
+//        FirebaseMessaging.getInstance().token
+//            .addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+////                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new FCM registration token
+//                val token = task.result
+//
+//                Log.d("FCM", "token : $token")
+//
+//
+//                val service = ServiceLocator.providePostService()
+//
+//                // Log and toast
+////                val msg = getString(R.string.msg_token_fmt, token)
+////                Log.d(TAG, msg)
+////                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+//            })
 
 
     }
 
-    private fun testService() {
+    private fun handleDeeplinks() {
 
-        val service = ServiceLocator.providePostService()
-        defaultLoadingCallback = {}
+        if(intent.action.equals("android.intent.action.VIEW") && intent.data != null){
+            Log.d("ahmet", "deeplink")
 
-        persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
-        persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
+            val url =  intent.data.toString()
+            val slug = url.replace(WordpressConfig.INSTANCE!!.ENDPOINT, "").replace("/", "")
 
-        val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+            val service = ServiceLocator.providePostService()
+            defaultLoadingCallback = {}
+            service.getPostsOfSlug(slug).makeCall { list->
+                if(list != null && list.isNotEmpty()){
+                    val postItem = list[0]
+                    val i = Intent(this@MainActivity, PostDetailActivity::class.java)
+                    i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
+                    startActivity(i)
+                }
+            }
 
-        service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
-            Toast.makeText(this@MainActivity, "list"+ list?.size, Toast.LENGTH_SHORT).show()
         }
-
     }
+
+//    private fun testService() {
+//
+//        val service = ServiceLocator.providePostService()
+//        defaultLoadingCallback = {}
+//
+//        persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
+//        persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
+//
+//        val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+//
+//        service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
+//            Toast.makeText(this@MainActivity, "list"+ list?.size, Toast.LENGTH_SHORT).show()
+//        }
+//
+//    }
 
     override fun onResume() {
         super.onResume()

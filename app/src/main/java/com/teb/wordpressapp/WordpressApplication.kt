@@ -1,7 +1,9 @@
 package com.teb.wordpressapp
 
 import android.app.Application
+import android.util.Log
 import com.minimalistbaker.app.R
+import com.onesignal.OneSignal
 import com.teb.wpcore.config.NavLink
 import com.teb.wpcore.config.NavLinkActionType
 import com.teb.wpcore.config.WordpressConfig
@@ -45,6 +47,20 @@ class WordpressApplication : Application() {
                     actionType = NavLinkActionType.ShowInWebViewInFragment),
             )
         )
+
+
+        // Enable verbose OneSignal logging to debug issues if needed.
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+
+        // OneSignal Initialization
+        OneSignal.initWithContext(this);
+        OneSignal.setAppId("70c77723-cc48-44a2-b35e-ad0c25cc4a72");
+
+        // promptForPushNotifications will show the native Android notification permission prompt.
+        // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 7)
+        OneSignal.promptForPushNotifications();
+
+
 
     }
 }
