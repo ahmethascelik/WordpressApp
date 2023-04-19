@@ -24,4 +24,12 @@ class MemoryPersistance : Persistance {
 
        return slugSet.joinToString(separator = ",")
     }
+
+    override fun setCustomLogo(context: Context, url: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCustomLogo(context: Context): String? {
+        TODO("Not yet implemented")
+    }
 }

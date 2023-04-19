@@ -176,7 +176,11 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
     private fun initViews() {
 
-        binding.headerImage.loadUrl(WordpressConfig.INSTANCE!!.LOGO_URL)
+        val persistance = ServiceLocator.providePersistance()
+
+        val customLogo = persistance.getCustomLogo(this)
+
+        binding.headerImage.loadUrl(customLogo ?: WordpressConfig.INSTANCE!!.LOGO_URL)
 
         binding.toolbar.setNavigationOnClickListener {
             binding.drawerLayout.open()

@@ -13,4 +13,8 @@ interface Persistance {
 
     fun getCommaSeperatedSlugsForFavoritePostsList(context: Context) : String
 
+    fun setCustomLogo(context: Context, url: String)
+
+    fun getCustomLogo(context: Context): String?
+
 }
