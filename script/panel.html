@@ -59,9 +59,11 @@
                     data: JSON.stringify(data),
                     success: function(response) {
                         console.log("Push notification sent successfully:", response);
+                        alert('Notification sent successfully!' + response);
                     },
                     error: function(xhr, status, error) {
                         console.error("Error sending push notification:", error);
+                        alert('Error sending notification.' + error);
                     }
                 });
 
