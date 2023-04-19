@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Send Push Notification</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Send Push Notification</h1>
+	<form id="push_notification_form" method="POST">
+
+		<label for="server_key">Server Key:</label>
+		<input type="text" id="server_key" name="server_key"><br><br>
+		<label for="device_token">Device Token:</label>
+		<input type="text" id="device_token" name="device_token"><br><br><br><br>
+		<label for="notification_text">Notification Text:</label>
+		<input type="text" id="notification_text" name="notification_text"><br><br>
+
+		<label for="notification_url">Notification URL:</label>
+		<input type="text" id="notification_url" name="notification_url"><br><br>
+        <label for="notification_type">Notification Type:</label>
+		<select id="notification_type" name="notification_type">
+			<option value="open_url">Open Post Detail</option>
+			<option value="change_logo">Change Logo</option>
+		</select><br><br>
+
+		<input type="submit" value="Send Notification">
+	</form>
+
+	<script>
+		$(document).ready(function() {
+			$('#push_notification_form').on('submit', function(event) {
+				event.preventDefault();
+                var serverKey = $('#server_key').val();
+				var deviceToken = $('#device_token').val();
+				var notificationUrl = $('#notification_url').val();
+				var notificationText = $('#notification_text').val();
+                var notificationType = $('#notification_type').val();
+
+                
+                // Set up the data for the notification
+                var data = {
+                    "data": {
+                        "action": notificationType,
+                        "text": notificationText,
+                        "url": notificationUrl
+
+                    },
+                    "to": deviceToken
+                };
+
+                // Send the AJAX request to FCM
+                $.ajax({
+                    url: "https://fcm.googleapis.com/fcm/send",
+                    type: "POST",
+                    contentType: "application/json",
+                    headers: {
+                        "Authorization": "key=" + serverKey
+                    },
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        console.log("Push notification sent successfully:", response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error sending push notification:", error);
+                    }
+                });
+
+			});
+		});
+	</script>
+</body>
+</html>
