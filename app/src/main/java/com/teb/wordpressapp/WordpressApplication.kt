@@ -19,6 +19,7 @@ class WordpressApplication : Application() {
             LOGO_URL = "https://minimalistbaker.com/wp-content/themes/mb-2020/assets/images/logo.png",
             HIDE_POSTS_FIRST_IMG = true,
             MAIN_ADD_UNIT_ID = "ca-app-pub-9298171139661017/6450551567",
+            ONE_SIGNAL_APP_ID = "70c77723-cc48-44a2-b35e-ad0c25cc4a72",
             WEB_URL_FRAGMENT_CUSTOM_JS =
             listOf("document.getElementsByTagName('header')[0].style.display = 'none'; ",
                 "document.getElementsByClassName('top-bar')[0].style.display='none';"),
@@ -49,17 +50,17 @@ class WordpressApplication : Application() {
         )
 
 
-        // Enable verbose OneSignal logging to debug issues if needed.
-        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
+        if (WordpressConfig.INSTANCE!!.ONE_SIGNAL_APP_ID != null) {// Enable verbose OneSignal logging to debug issues if needed.
+            OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
 
-        // OneSignal Initialization
-        OneSignal.initWithContext(this);
-        OneSignal.setAppId("70c77723-cc48-44a2-b35e-ad0c25cc4a72");
+            // OneSignal Initialization
+            OneSignal.initWithContext(this);
+            OneSignal.setAppId(WordpressConfig.INSTANCE!!.ONE_SIGNAL_APP_ID!!);
 
-        // promptForPushNotifications will show the native Android notification permission prompt.
-        // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 7)
-        OneSignal.promptForPushNotifications();
-
+            // promptForPushNotifications will show the native Android notification permission prompt.
+            // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 7)
+            OneSignal.promptForPushNotifications();
+        }
 
 
     }

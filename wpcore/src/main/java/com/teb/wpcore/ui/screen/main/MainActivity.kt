@@ -59,28 +59,33 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         handleDeeplinks()
 //        testService()
 //
-//        FirebaseMessaging.getInstance().token
-//            .addOnCompleteListener(OnCompleteListener { task ->
-//                if (!task.isSuccessful) {
-////                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-//                    return@OnCompleteListener
-//                }
-//
-//                // Get new FCM registration token
-//                val token = task.result
-//
-//                Log.d("FCM", "token : $token")
-//
-//
-//                val service = ServiceLocator.providePostService()
-//
-//                // Log and toast
-////                val msg = getString(R.string.msg_token_fmt, token)
-////                Log.d(TAG, msg)
-////                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
-//            })
+        getFcmToken()
 
 
+
+    }
+
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+//                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+
+                Log.d("FCM", "token : $token")
+
+
+                val service = ServiceLocator.providePostService()
+
+                // Log and toast
+//                val msg = getString(R.string.msg_token_fmt, token)
+//                Log.d(TAG, msg)
+//                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
+            })
     }
 
     private fun handleDeeplinks() {

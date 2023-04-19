@@ -8,6 +8,7 @@ class WordpressConfig(
     val WEB_URL_FRAGMENT_CUSTOM_JS: List<String>,
     var NAV_VIEW_LINKS: List<NavLink>,
     val MAIN_ADD_UNIT_ID: String? = null,
+    val ONE_SIGNAL_APP_ID: String? = null,
 ) {
 
 
