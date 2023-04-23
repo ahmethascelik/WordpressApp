@@ -15,6 +15,7 @@ import com.teb.wordpressapp.config.NavLinkActionType
 import com.teb.wordpressapp.data.ServiceLocator
 import com.teb.wordpressapp.databinding.ActivityMainBinding
 import com.teb.wordpressapp.ui.BaseActivity
+import com.teb.wordpressapp.ui.screen.main.category.CategoryFragment
 import com.teb.wordpressapp.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wordpressapp.ui.screen.pagedetail.PageDetailFragment
