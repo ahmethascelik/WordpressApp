@@ -43,6 +43,9 @@ class WordpressApplication : Application() {
                 NavLink(title = "Gluten-Free",
                     data = "https://minimalistbaker.com/recipe-index/?fwp_special-diet=gluten-free",
                     actionType = NavLinkActionType.ShowInWebViewInFragment),
+                NavLink(title = "Favories",
+                    data = null,
+                    actionType = NavLinkActionType.ShowFavorites),
             )
         )
 

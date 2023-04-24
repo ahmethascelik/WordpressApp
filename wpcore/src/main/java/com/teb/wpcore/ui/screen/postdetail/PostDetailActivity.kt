@@ -6,10 +6,12 @@ import android.os.Bundle
 
 
 import android.view.View
+import android.widget.Toast
 import com.teb.wpcore.R
 import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
+import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityPostDetailBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.CommentsActivity
@@ -29,6 +31,7 @@ class PostDetailActivity : BaseActivity() {
     val service = ServiceLocator.providePostService()
 
     lateinit var postId: String
+    val persistance : Persistance = ServiceLocator.providePersistance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,7 @@ class PostDetailActivity : BaseActivity() {
 
         binding.toolbar.menu.add(getString(R.string.menu_item_comments))
         binding.toolbar.menu.add(getString(R.string.menu_item_share))
+        binding.toolbar.menu.add(getString(R.string.menu_item_add_favorites))
 
         binding.toolbar.setOnMenuItemClickListener { clickedMenuItem ->
             if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
@@ -72,6 +76,15 @@ class PostDetailActivity : BaseActivity() {
                 intent.putExtra(Intent.EXTRA_TEXT,"${postDetail?.link}")
                 intent.type="text/plain"
                 startActivity(Intent.createChooser(intent,"Share To:"))
+            } else if (getString((R.string.menu_item_add_favorites)).equals(clickedMenuItem.title)) {
+                //TODO: Add post to addToFavoritePostsList with slug
+                defaultLoadingCallback = {}
+                persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
+                persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
+                val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+                service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
+                    Toast.makeText(this, "list"+ list?.size, Toast.LENGTH_SHORT).show()
+                }
             }
             true
         }

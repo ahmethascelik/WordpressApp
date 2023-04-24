@@ -29,6 +29,7 @@ import com.teb.wpcore.databinding.ActivityMainBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
 import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListenerActivity
+import com.teb.wpcore.ui.screen.main.favorites.FavoritesActivity
 import com.teb.wpcore.ui.screen.main.postitem.PostItemListFragment
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailFragment
@@ -240,6 +241,11 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
                     NavLinkActionType.OpenPageDetailInFragment -> {
                         val fragment = PageDetailFragment.newInstance(navViewLink.data!!)
                         replaceFragment(fragment)
+                    }
+                    NavLinkActionType.ShowFavorites -> {
+                        val intent = Intent(this@MainActivity, FavoritesActivity::class.java)
+                        //intent.putExtra(CommentsActivity.EXTRA_COMMENT_ID, postId)
+                        startActivity(intent)
                     }
                 }
 

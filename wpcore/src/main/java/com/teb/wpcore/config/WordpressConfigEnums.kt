@@ -13,5 +13,5 @@ data class NavLink(
     )
 enum class NavLinkActionType{
      ReturnToHome, ShowInWebViewInFragment, OpenInWebBrowser, OpenPageDetailInFragment, OpenPageDetailInNewActivity,
-    ShowCategories
+    ShowCategories, ShowFavorites
 }
