@@ -34,6 +34,7 @@
         <activity android:name="com.teb.wpcore.ui.screen.postdetail.PostDetailActivity" />
         <activity android:name="com.teb.wpcore.ui.screen.pagedetail.PageDetailActivity" />
         <activity android:name="com.teb.wpcore.ui.CommentsActivity" />
+        <activity android:name="com.teb.wpcore.ui.screen.favorites.FavoritesActivity" />
 
     </application>
 

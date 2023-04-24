@@ -3,16 +3,20 @@ package com.teb.wpcore.ui.screen.postdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 
 
 import android.view.View
+import android.widget.Toast
 import com.teb.wpcore.R
 import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
+import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityPostDetailBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.CommentsActivity
+import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.util.loadUrl
 
 
@@ -29,6 +33,8 @@ class PostDetailActivity : BaseActivity() {
     val service = ServiceLocator.providePostService()
 
     lateinit var postId: String
+
+    val persistance : Persistance = ServiceLocator.providePersistance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +66,7 @@ class PostDetailActivity : BaseActivity() {
 
         binding.toolbar.menu.add(getString(R.string.menu_item_comments))
         binding.toolbar.menu.add(getString(R.string.menu_item_share))
+        binding.toolbar.menu.add(getString(R.string.menu_item_add_favorites))
 
         binding.toolbar.setOnMenuItemClickListener { clickedMenuItem ->
             if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
@@ -72,6 +79,12 @@ class PostDetailActivity : BaseActivity() {
                 intent.putExtra(Intent.EXTRA_TEXT,"${postDetail?.link}")
                 intent.type="text/plain"
                 startActivity(Intent.createChooser(intent,"Share To:"))
+            } else if (getString(R.string.menu_item_add_favorites).equals(clickedMenuItem.title)) {
+                persistance.addToFavoritePostsList(this, postDetail?.slug.toString())
+                val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+                val intent = Intent(this@PostDetailActivity, FavoritesActivity::class.java)
+                intent.putExtra(FavoritesActivity.EXTRA_FAVORITES_SLUG, commaSlugs)
+                startActivity(intent)
             }
             true
         }

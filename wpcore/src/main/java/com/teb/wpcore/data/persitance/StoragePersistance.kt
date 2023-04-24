@@ -5,6 +5,7 @@ import android.preference.PreferenceManager
 
 class StoragePersistance : Persistance {
     private val KEY_PAGE_COUNT: String = "PAGE_COUNT"
+    private val KEY_FAVORITE: String = "KEY_FAVORITE"
 
     override fun incrementPageViewCount(context: Context) {
         val currentVal = getPageViewCount(context)
@@ -25,11 +26,20 @@ class StoragePersistance : Persistance {
     }
 
     override fun addToFavoritePostsList(context: Context, slug: String) {
-        TODO("Not yet implemented")
+        val currentFavorites = getCommaSeperatedSlugsForFavoritePostsList(context)
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        val editor = sharedPreferences.edit()
+
+        editor.putString(KEY_FAVORITE, currentFavorites)
+
+        editor.commit()
     }
 
     override fun getCommaSeperatedSlugsForFavoritePostsList(context: Context): String {
-        TODO("Not yet implemented")
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return sharedPreferences.getString(KEY_FAVORITE, "").toString()
     }
 
 
