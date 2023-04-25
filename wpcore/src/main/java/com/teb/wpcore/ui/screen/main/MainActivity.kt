@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityMainBinding
 import com.teb.wpcore.ui.BaseActivity
+import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
 import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListenerActivity
 import com.teb.wpcore.ui.screen.main.postitem.PostItemListFragment
@@ -55,10 +57,8 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         initViews()
         initAds()
 
-
         handleDeeplinks()
-//        testService()
-//
+
         getFcmToken()
 
 
@@ -79,12 +79,6 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
                 Log.d("FCM", "token : $token")
 
 
-                val service = ServiceLocator.providePostService()
-
-                // Log and toast
-//                val msg = getString(R.string.msg_token_fmt, token)
-//                Log.d(TAG, msg)
-//                Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
             })
     }
 
@@ -108,23 +102,10 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
             }
 
         }
+
     }
 
-//    private fun testService() {
-//
-//        val service = ServiceLocator.providePostService()
-//        defaultLoadingCallback = {}
-//
-//        persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
-//        persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
-//
-//        val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
-//
-//        service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
-//            Toast.makeText(this@MainActivity, "list"+ list?.size, Toast.LENGTH_SHORT).show()
-//        }
-//
-//    }
+
 
     override fun onResume() {
         super.onResume()
@@ -295,6 +276,16 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
                         val fragment = PageDetailFragment.newInstance(navViewLink.data!!)
                         replaceFragment(fragment)
                     }
+                    NavLinkActionType.ShowFavorites -> {
+                        val i = Intent(this@MainActivity, FavoritesActivity::class.java)
+                        val slug = persistance.getCommaSeperatedSlugsForFavoritePostsList()
+                        if (slug.isNullOrBlank()){
+                            Toast.makeText(this@MainActivity, "Favori listeniz boş.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            //i.putExtra(PageDetailActivity.EXTRA_PAGE_ID, navLink.data)
+                            startActivity(i)
+                        }
+                    }
                 }
 
             }
@@ -303,10 +294,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
     }
 
     override fun onCategorySelected(category: Category) {
-
         val fragment = PostItemListFragment.newInstance(category)
         replaceFragment(fragment, "category")
     }
-
-
 }

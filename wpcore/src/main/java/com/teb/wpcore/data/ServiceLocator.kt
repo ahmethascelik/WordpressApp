@@ -44,9 +44,9 @@ class ServiceLocator {
         }
 
 
-
         fun providePersistance(context: Application) : Persistance {
             return StoragePersistance(context)
+
         }
     }
 }

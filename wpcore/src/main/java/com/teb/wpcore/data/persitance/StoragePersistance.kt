@@ -2,11 +2,15 @@ package com.teb.wpcore.data.persitance
 
 import android.content.Context
 import android.preference.PreferenceManager
+import java.util.HashSet
 
 class StoragePersistance(val context: Context) : Persistance {
 
     private val KEY_PAGE_COUNT: String = "PAGE_COUNT"
+
     private val KEY_CUSTOM_LOGO: String = "CUSTOM_LOGO"
+
+    private val KEY_FAVORITE: String = "KEY_FAVORITE"
 
     override fun incrementPageViewCount() {
         val currentVal = getPageViewCount()
@@ -26,13 +30,7 @@ class StoragePersistance(val context: Context) : Persistance {
         return sharedPreferences.getInt(KEY_PAGE_COUNT, 0)
     }
 
-    override fun addToFavoritePostsList(slug: String) {
-        TODO("Not yet implemented")
-    }
 
-    override fun getCommaSeperatedSlugsForFavoritePostsList(): String {
-        TODO("Not yet implemented")
-    }
 
     override fun setCustomLogo(url: String) {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -49,4 +47,24 @@ class StoragePersistance(val context: Context) : Persistance {
     }
 
 
+    override fun addToFavoritePostsList( slug: String) {
+
+        val currentFavorites = getCommaSeperatedSlugsForFavoritePostsList()
+
+        val mergedFavorites = "$currentFavorites,$slug"
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        val editor = sharedPreferences.edit()
+
+        editor.putString(KEY_FAVORITE, mergedFavorites)
+
+        editor.commit()
+    }
+
+    override fun getCommaSeperatedSlugsForFavoritePostsList(): String {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+        return sharedPreferences.getString(KEY_FAVORITE, "").toString()
+    }
 }

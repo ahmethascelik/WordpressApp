@@ -3,18 +3,17 @@ package com.teb.wpcore.ui.screen.postdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-
-
 import android.view.View
 import com.teb.wpcore.R
 import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
+import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityPostDetailBinding
 import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.CommentsActivity
+import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.util.loadUrl
-
 
 class PostDetailActivity : BaseActivity() {
 
@@ -30,11 +29,15 @@ class PostDetailActivity : BaseActivity() {
 
     lateinit var postId: String
 
+    lateinit var persistance : Persistance
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityPostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        persistance = ServiceLocator.providePersistance(application)
 
         postId = intent.getStringExtra(EXTRA_POST_ID)!!
 
@@ -42,9 +45,7 @@ class PostDetailActivity : BaseActivity() {
         makeInitialRequest()
     }
 
-
     private fun initViews() {
-
 
         defaultLoadingCallback = { isLoading ->
             if (isLoading) {
@@ -60,6 +61,7 @@ class PostDetailActivity : BaseActivity() {
 
         binding.toolbar.menu.add(getString(R.string.menu_item_comments))
         binding.toolbar.menu.add(getString(R.string.menu_item_share))
+        binding.toolbar.menu.add(getString(R.string.menu_item_add_favorites))
 
         binding.toolbar.setOnMenuItemClickListener { clickedMenuItem ->
             if (getString(R.string.menu_item_comments).equals(clickedMenuItem.title)) {
@@ -72,13 +74,18 @@ class PostDetailActivity : BaseActivity() {
                 intent.putExtra(Intent.EXTRA_TEXT,"${postDetail?.link}")
                 intent.type="text/plain"
                 startActivity(Intent.createChooser(intent,"Share To:"))
+            } else if (getString(R.string.menu_item_add_favorites).equals(clickedMenuItem.title)) {
+                persistance.addToFavoritePostsList( postDetail?.slug.toString())
+                val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList()
+                val intent = Intent(this@PostDetailActivity, FavoritesActivity::class.java)
+                intent.putExtra(FavoritesActivity.EXTRA_FAVORITES_SLUG, commaSlugs)
+                startActivity(intent)
             }
             true
         }
 
         binding.webView.onLinkClickListener = { url, slug, webview ->
             service.getPostsOfSlug(slug).makeCall { list->
-
                 if(list != null && list.isNotEmpty()){
                     val postItem = list[0]
                     val i = Intent(this, PostDetailActivity::class.java)
@@ -87,8 +94,6 @@ class PostDetailActivity : BaseActivity() {
                 }else{
                     binding.webView.loadUrl(url)
                 }
-
-
             }
 
         }
@@ -96,8 +101,6 @@ class PostDetailActivity : BaseActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun makeInitialRequest() {
-
-
         service.getPostWithId(postId).makeCall { postDetail ->
 
             this.postDetail = postDetail
@@ -108,10 +111,5 @@ class PostDetailActivity : BaseActivity() {
             binding.headerImage.loadUrl(postDetail.imageUrl())
             binding.webView.loadHtmlContent(postDetail.content(), WordpressConfig.INSTANCE!!.HIDE_POSTS_FIRST_IMG)
         }
-
-
     }
-
-
-
 }
