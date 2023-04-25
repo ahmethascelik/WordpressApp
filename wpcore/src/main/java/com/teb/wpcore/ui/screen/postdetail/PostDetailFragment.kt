@@ -8,11 +8,14 @@ import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.databinding.FragmentPostDetailBinding
 import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.screen.postdetail.mvp.PostDetailFragmentPresenter
+import com.teb.wpcore.ui.screen.postdetail.mvp.PostDetailFragmentView
 
-class PostDetailFragment : BaseFragment() {
+class PostDetailFragment : BaseFragment(), PostDetailFragmentView {
 
-    private lateinit var postDetail: PostDetail
-    val service = ServiceLocator.providePostService()
+
+    val presenter = PostDetailFragmentPresenter(view = this)
+
 
     companion object{
         private const val EXTRA_POST_ID = "EXTRA_POST_ID"
@@ -60,15 +63,12 @@ class PostDetailFragment : BaseFragment() {
     }
 
     private fun makeInitialRequests() {
+        presenter.getPostWithId(postId)
 
-        service.getPostWithId(postId).makeCall { postDetail ->
+    }
 
-            this.postDetail = postDetail
-            binding.webView.loadHtmlContent(postDetail.content())
-        }
-
-
-
+    override fun loadHtmlContent(htmlContent: String) {
+        binding.webView.loadHtmlContent(htmlContent)
     }
 
 }
