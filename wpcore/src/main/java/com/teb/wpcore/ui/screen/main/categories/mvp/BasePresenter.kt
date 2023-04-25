@@ -6,7 +6,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class BaseUnit<V : BaseView>(val view: V) {
+open class BasePresenter<V : BaseView>(val view: V) {
 
 
     var defaultLoadingCallback: LoadingCallback? = null

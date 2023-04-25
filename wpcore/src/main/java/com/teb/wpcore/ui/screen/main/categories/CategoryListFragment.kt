@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.databinding.FragmentCategoryListBinding
 import com.teb.wpcore.ui.BaseFragment
-import com.teb.wpcore.ui.screen.main.categories.mvp.CategoryListFragmentUnit
+import com.teb.wpcore.ui.screen.main.categories.mvp.CategoryListFragmentPresenter
 import com.teb.wpcore.ui.screen.main.categories.mvp.CategoryListView
 
 class CategoriesFragment: BaseFragment(), CategoryListView {
 
-    val unit = CategoryListFragmentUnit(this)
+    val unit = CategoryListFragmentPresenter(this)
 
 
     companion object{
