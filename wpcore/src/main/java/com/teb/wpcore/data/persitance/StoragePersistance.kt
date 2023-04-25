@@ -2,10 +2,12 @@ package com.teb.wpcore.data.persitance
 
 import android.content.Context
 import android.preference.PreferenceManager
+import java.util.HashSet
 
 class StoragePersistance : Persistance {
     private val KEY_PAGE_COUNT: String = "PAGE_COUNT"
     private val KEY_FAVORITE: String = "KEY_FAVORITE"
+
 
     override fun incrementPageViewCount(context: Context) {
         val currentVal = getPageViewCount(context)
@@ -26,12 +28,15 @@ class StoragePersistance : Persistance {
     }
 
     override fun addToFavoritePostsList(context: Context, slug: String) {
+
         val currentFavorites = getCommaSeperatedSlugsForFavoritePostsList(context)
+
+        val mergedFavorites = "$currentFavorites,$slug"
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         val editor = sharedPreferences.edit()
 
-        editor.putString(KEY_FAVORITE, currentFavorites)
+        editor.putString(KEY_FAVORITE, mergedFavorites)
 
         editor.commit()
     }
