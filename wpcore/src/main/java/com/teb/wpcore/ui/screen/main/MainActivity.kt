@@ -33,6 +33,7 @@ import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
 import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListenerActivity
 import com.teb.wpcore.ui.screen.main.postitem.PostItemListFragment
+import com.teb.wpcore.ui.screen.main_mvp.MainActivityUnit
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailActivity
 import com.teb.wpcore.ui.screen.pagedetail.PageDetailFragment
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
@@ -44,6 +45,8 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
     private var admobView: AdView? = null
     lateinit var searchMenuItem: MenuItem
     private lateinit var binding: ActivityMainBinding
+
+    val mainActivityUnit = MainActivityUnit()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

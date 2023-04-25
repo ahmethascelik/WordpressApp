@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.teb.wpcore.data.ServiceLocator
+import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.databinding.FragmentCategoryListBinding
 import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.screen.main.categories.mvp.CategoryListFragmentUnit
+import com.teb.wpcore.ui.screen.main.categories.mvp.CategoryListView
 
-class CategoriesFragment: BaseFragment() {
+class CategoriesFragment: BaseFragment(), CategoryListView {
 
-    val service = ServiceLocator.providePostService()
+    val unit = CategoryListFragmentUnit(this)
+
 
     companion object{
 
@@ -38,37 +41,16 @@ class CategoriesFragment: BaseFragment() {
         return binding.root
     }
 
+    val adapter = CategoryAdapter()
+
     private fun initView() {
 
-        defaultLoadingCallback = { isLoading ->
+        unit.defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.GONE
             }
-        }
-    }
-
-    private fun makeInitialRequests() {
-        getCategories()
-    }
-
-    private fun getCategories() {
-        val service = ServiceLocator.providePostService()
-        val adapter = CategoryAdapter()
-        service.getTopLevelCategories().makeCall { categories ->
-            binding.apply {
-                categoriesRecyclerView.layoutManager = LinearLayoutManager(activity)
-                if (categories != null){
-                    adapter.setDataList(categories)
-                }
-                categoriesRecyclerView.adapter = adapter
-            }
-            /*categories?.get(3)?.id?.let { it1 -> service.getCategories(it1).makeCall(){
-                    innerCat->
-                Toast.makeText(activity, "size "+ innerCat?.size, Toast.LENGTH_SHORT).show()
-
-            } }*/
         }
 
         adapter.postItemTitleClickListener = { category ->
@@ -78,4 +60,20 @@ class CategoriesFragment: BaseFragment() {
             }
         }
     }
+
+    private fun makeInitialRequests() {
+        unit.getCategories()
+    }
+
+    override fun setList(dataList: List<Category>?) {
+        binding.apply {
+            categoriesRecyclerView.layoutManager = LinearLayoutManager(activity)
+            if (dataList != null){
+                adapter.setDataList(dataList)
+            }
+            categoriesRecyclerView.adapter = adapter
+        }
+    }
+
+
 }
