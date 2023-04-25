@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.data.model.PostItem
 import com.teb.wpcore.databinding.FragmentPostItemListBinding
 import com.teb.wpcore.ui.BaseFragment
 import com.teb.wpcore.ui.screen.main.SearchableFragment
+import com.teb.wpcore.ui.screen.main.postitem.mvp.PostItemListPresenter
+import com.teb.wpcore.ui.screen.main.postitem.mvp.PostItemListView
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
+import com.teb.wpcore.ui.widget.OnPageChangeRequestListener
 
-class PostItemListFragment : BaseFragment() , SearchableFragment {
+class PostItemListFragment : BaseFragment() , SearchableFragment, PostItemListView {
 
+    val presenter = PostItemListPresenter(view = this)
 
 
     companion object {
@@ -34,7 +37,6 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
     }
 
     private var category: Category? = null
-    val service = ServiceLocator.providePostService()
 
 
     private lateinit var binding: FragmentPostItemListBinding
@@ -53,9 +55,9 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
         binding = FragmentPostItemListBinding.inflate(layoutInflater, container, false)
         initView()
         if (category != null) {
-            getPostOfCategoryWithPageNum(1)
+            presenter.getPostOfCategoryWithPageNum(1)
         }else{
-            getPostWithPageNum(1)
+            presenter.getPostWithPageNum(1)
         }
 
         return binding.root
@@ -75,7 +77,7 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
             startActivity(i)
         }
 
-        defaultLoadingCallback = { isLoading ->
+        presenter.defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
@@ -85,7 +87,7 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
         binding.btnClearSearch.setOnClickListener {
             adapter.setDataList(emptyList())
-            getPostWithPageNum(1)
+            presenter.getPostWithPageNum(1)
             binding.layoutSearchQueryInfo.visibility = View.GONE
         }
 
@@ -96,66 +98,39 @@ class PostItemListFragment : BaseFragment() , SearchableFragment {
 
     }
 
-    private fun getPostWithPageNum(currentPage: Int) {
-
-        service.getPosts(page = "" + currentPage)
-            .makeCall(successCallback = { result: List<PostItem>? ->
-                adapter.setDataList(result!!)
-            }, paginationCallback = { header_wp_totalpages ->
-
-                binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
-
-                binding.paginationView.onPageChangeRequestListener = { page ->
-                    getPostWithPageNum(page)
-                }
-
-            })
-    }
-    private fun getPostOfCategoryWithPageNum(currentPage: Int) {
-
-        service.getPostsOfCategory(categoryId = category?.id ,page = "" + currentPage)
-            .makeCall(successCallback = { result: List<PostItem>? ->
-                adapter.setDataList(result!!)
-            }, paginationCallback = { header_wp_totalpages ->
-
-                binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
-
-                binding.paginationView.onPageChangeRequestListener = { page ->
-                    getPostOfCategoryWithPageNum(page)
-                }
-
-            })
-    }
-
     override fun onSearchQuerySubmitted(query: String) {
 
-        onSearchQuerySubmitted(1, query)
+        presenter.getPostsWithSearchQuery(1, query)
 
     }
 
-    fun onSearchQuerySubmitted(currentPage: Int, query: String) {
 
+    override fun setSearchQueryInfo(query: String) {
         binding.layoutSearchQueryInfo.visibility = View.VISIBLE
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar aranıyor"
         adapter.setDataList(emptyList())
-
-        service.getPosts(search = query).makeCall(successCallback = { result: List<PostItem>? ->
-            adapter.setDataList(result!!)
-
-            if (result.isEmpty()) {
-                binding.txtSearchQuery.text = "\"$query\" için sonuç bulunamadı!"
-            } else {
-                binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
-            }
-        }, paginationCallback = { header_wp_totalpages ->
-
-            binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
-
-            binding.paginationView.onPageChangeRequestListener = { page ->
-                onSearchQuerySubmitted(page, query)
-            }
-
-        })
     }
 
+    override fun fillPostList(result: List<PostItem>) {
+        adapter.setDataList(result)
+    }
+
+    override fun setupPaginationPageCounts(currentPage: Int, header_wp_totalpages: Int) {
+        binding.paginationView.setPageCounts(currentPage, header_wp_totalpages)
+    }
+
+    override fun setupPaginationPageChangeListener(
+        pageChangeListener: OnPageChangeRequestListener?
+    ) {
+        binding.paginationView.onPageChangeRequestListener = pageChangeListener
+
+    }
+
+    override fun updateSearchQueryInfoEmpty(query: String?) {
+        binding.txtSearchQuery.text = "\"$query\" için sonuç bulunamadı!"
+    }
+
+    override fun updateSearchQueryInfoNotEmpty(query: String?) {
+        binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
+    }
 }

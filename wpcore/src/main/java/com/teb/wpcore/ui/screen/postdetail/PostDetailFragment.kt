@@ -52,7 +52,7 @@ class PostDetailFragment : BaseFragment(), PostDetailFragmentView {
 
     private fun initView() {
 
-        defaultLoadingCallback = { isLoading ->
+        presenter.defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {

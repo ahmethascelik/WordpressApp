@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import com.teb.wpcore.data.ServiceLocator
+import com.teb.wpcore.data.model.PostItem
 import com.teb.wpcore.databinding.FragmentWebUrlBinding
 import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.screen.main.mvp.WebUrlFragmentPresenter
+import com.teb.wpcore.ui.screen.main.mvp.WebUrlFragmentView
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
 import com.teb.wpcore.ui.widget.WordpressWebView
 
-class WebUrlFragment : BaseFragment() {
+class WebUrlFragment : BaseFragment(), WebUrlFragmentView {
+
+    val presenter = WebUrlFragmentPresenter(view = this)
 
     companion object{
         private val EXTRA_URL: String = "EXTRA_URL"
@@ -26,7 +30,6 @@ class WebUrlFragment : BaseFragment() {
         }
     }
 
-    val service = ServiceLocator.providePostService()
 
     var urlToOpen : String? = null
 
@@ -49,7 +52,7 @@ class WebUrlFragment : BaseFragment() {
 
     private fun initView() {
 
-        defaultLoadingCallback = { isLoading ->
+        presenter.defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
@@ -70,19 +73,10 @@ class WebUrlFragment : BaseFragment() {
 
 
         binding.webView.onLinkClickListener = { url, slug, webview ->
-            service.getPostsOfSlug(slug).makeCall { list->
 
-                if(list != null && list.isNotEmpty()){
-                    val postItem = list[0]
-                    val i = Intent(activity, PostDetailActivity::class.java)
-                    i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
-                    startActivity(i)
-                }else{
-                    binding.webView.loadUrl(url)
-                }
+            presenter.getPostsOfSlug(slug, url)
 
 
-            }
 
         }
 
@@ -94,6 +88,16 @@ class WebUrlFragment : BaseFragment() {
         }
 
 
+    }
+
+    override fun openPostDetail(postItem: PostItem) {
+        val i = Intent(activity, PostDetailActivity::class.java)
+        i.putExtra(PostDetailActivity.EXTRA_POST_ID, postItem.id)
+        startActivity(i)
+    }
+
+    override fun openWebUrl(url: String) {
+        binding.webView.loadUrl(url)
     }
 
 }

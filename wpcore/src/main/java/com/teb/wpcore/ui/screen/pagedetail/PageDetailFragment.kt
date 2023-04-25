@@ -8,11 +8,14 @@ import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.databinding.FragmentPageDetailBinding
 import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.screen.pagedetail.mvp.PageDetailPresenter
+import com.teb.wpcore.ui.screen.pagedetail.mvp.PageDetailView
 
-class PageDetailFragment : BaseFragment() {
+class PageDetailFragment : BaseFragment(), PageDetailView {
+
+    val presenter = PageDetailPresenter(this)
 
     private lateinit var pageDetail: PostDetail
-    val service = ServiceLocator.providePostService()
 
     companion object{
         private const val EXTRA_PAGE_ID = "EXTRA_PAGE_ID"
@@ -49,7 +52,7 @@ class PageDetailFragment : BaseFragment() {
 
     private fun initView() {
 
-        defaultLoadingCallback = { isLoading ->
+        presenter.defaultLoadingCallback = { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
@@ -59,15 +62,11 @@ class PageDetailFragment : BaseFragment() {
     }
 
     private fun makeInitialRequests() {
+        presenter.getPageWithId(pageId)
+    }
 
-        service.getPageWithId(pageId).makeCall { pageDetail ->
-
-            this.pageDetail = pageDetail
-            binding.webView.loadHtmlContent(pageDetail.content())
-        }
-
-
-
+    override fun loadHtml(content: String) {
+        binding.webView.loadHtmlContent(content)
     }
 
 }

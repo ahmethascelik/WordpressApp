@@ -5,4 +5,5 @@ import retrofit2.Call
 
 public interface BaseView {
     fun <T> onServiceFailure(call: Call<T>, t: Throwable, tryAgainCallback: TryAgainCallback?)
+
 }
