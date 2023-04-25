@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -17,7 +16,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.teb.wpcore.BuildConfig
@@ -51,6 +49,8 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
+        persistance = ServiceLocator.providePersistance(application)
 
         initViews()
         initAds()
@@ -129,11 +129,11 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
     override fun onResume() {
         super.onResume()
 
-        persistance.incrementPageViewCount(this)
+        persistance.incrementPageViewCount()
 
-        Log.d("pageView", "pageView: "+ persistance.getPageViewCount(this))
+        Log.d("pageView", "pageView: "+ persistance.getPageViewCount())
 
-        if (persistance.getPageViewCount(this) % 4 == 0) {
+        if (persistance.getPageViewCount() % 4 == 0) {
             admobView?.visibility = View.VISIBLE
         }else{
             admobView?.visibility = View.GONE
@@ -141,7 +141,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
     }
 
-    val persistance : Persistance = ServiceLocator.providePersistance()
+    lateinit var persistance : Persistance
 
     private fun initAds() {
 
@@ -176,9 +176,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
 
     private fun initViews() {
 
-        val persistance = ServiceLocator.providePersistance()
-
-        val customLogo = persistance.getCustomLogo(this)
+        val customLogo = persistance.getCustomLogo()
 
         binding.headerImage.loadUrl(customLogo ?: WordpressConfig.INSTANCE!!.LOGO_URL)
 

@@ -1,20 +1,18 @@
 package com.teb.wpcore.data.persitance
 
-import android.content.Context
-
 interface Persistance {
 
-    fun incrementPageViewCount(context: Context)
+    fun incrementPageViewCount()
 
-    fun getPageViewCount(context: Context) : Int
+    fun getPageViewCount(): Int
 
 
-    fun addToFavoritePostsList(context: Context, slug: String)
+    fun addToFavoritePostsList(slug: String)
 
-    fun getCommaSeperatedSlugsForFavoritePostsList(context: Context) : String
+    fun getCommaSeperatedSlugsForFavoritePostsList(): String
 
-    fun setCustomLogo(context: Context, url: String)
+    fun setCustomLogo(url: String)
 
-    fun getCustomLogo(context: Context): String?
+    fun getCustomLogo(): String?
 
 }

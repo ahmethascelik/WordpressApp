@@ -103,8 +103,8 @@ class PnService : FirebaseMessagingService() {
 
 
         } else if (pushData.action.equals("change_logo")) {
-            val persistance = ServiceLocator.providePersistance();
-            pushData.url?.let { persistance.setCustomLogo(this, it) }
+            val persistance = ServiceLocator.providePersistance(application);
+            pushData.url?.let { persistance.setCustomLogo(it) }
         }
 
 

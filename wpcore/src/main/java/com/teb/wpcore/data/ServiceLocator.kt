@@ -1,5 +1,7 @@
 package com.teb.wpcore.data
 
+import android.app.Application
+import android.content.Context
 import com.teb.wpcore.BuildConfig
 import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.persitance.MemoryPersistance
@@ -43,8 +45,8 @@ class ServiceLocator {
 
 
 
-        fun providePersistance() : Persistance {
-            return StoragePersistance()
+        fun providePersistance(context: Application) : Persistance {
+            return StoragePersistance(context)
         }
     }
 }

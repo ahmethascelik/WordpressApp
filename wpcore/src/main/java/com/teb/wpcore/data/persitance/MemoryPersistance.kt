@@ -1,6 +1,5 @@
 package com.teb.wpcore.data.persitance
 
-import android.content.Context
 import java.util.HashSet
 
 class MemoryPersistance : Persistance {
@@ -8,28 +7,28 @@ class MemoryPersistance : Persistance {
 
     val slugSet : MutableSet<String> = HashSet()
 
-    override fun incrementPageViewCount(context: Context) {
+    override fun incrementPageViewCount() {
         pageCount++
     }
 
-    override fun getPageViewCount(context: Context): Int {
+    override fun getPageViewCount(): Int {
         return pageCount
     }
 
-    override fun addToFavoritePostsList(context: Context, slug: String) {
+    override fun addToFavoritePostsList(slug: String) {
         slugSet.add(slug)
     }
 
-    override fun getCommaSeperatedSlugsForFavoritePostsList(context: Context): String {
+    override fun getCommaSeperatedSlugsForFavoritePostsList(): String {
 
        return slugSet.joinToString(separator = ",")
     }
 
-    override fun setCustomLogo(context: Context, url: String) {
+    override fun setCustomLogo(url: String) {
         TODO("Not yet implemented")
     }
 
-    override fun getCustomLogo(context: Context): String? {
+    override fun getCustomLogo(): String? {
         TODO("Not yet implemented")
     }
 }
