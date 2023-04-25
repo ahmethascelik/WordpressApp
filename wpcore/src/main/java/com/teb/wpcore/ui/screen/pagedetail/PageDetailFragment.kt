@@ -45,21 +45,10 @@ class PageDetailFragment : BaseFragment(), PageDetailView {
             pageId = it.getString(EXTRA_PAGE_ID)!!
         }
 
-        initView()
         makeInitialRequests()
         return binding.root
     }
 
-    private fun initView() {
-
-        presenter.defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-    }
 
     private fun makeInitialRequests() {
         presenter.getPageWithId(pageId)
@@ -69,4 +58,12 @@ class PageDetailFragment : BaseFragment(), PageDetailView {
         binding.webView.loadHtmlContent(content)
     }
 
+
+    override fun showDefaultLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideDefaultLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
 }

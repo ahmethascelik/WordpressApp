@@ -52,14 +52,6 @@ class WebUrlFragment : BaseFragment(), WebUrlFragmentView {
 
     private fun initView() {
 
-        presenter.defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-
         binding.webView.additionalWebViewOnPageFinishRunnable = object : WordpressWebView.AdditionalWebViewOnPageFinishRunnable{
             override fun onPageFinished(view: WebView?, url: String?) {
 
@@ -98,6 +90,14 @@ class WebUrlFragment : BaseFragment(), WebUrlFragmentView {
 
     override fun openWebUrl(url: String) {
         binding.webView.loadUrl(url)
+    }
+
+    override fun showDefaultLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideDefaultLoading() {
+        binding.progressBar.visibility = View.GONE
     }
 
 }

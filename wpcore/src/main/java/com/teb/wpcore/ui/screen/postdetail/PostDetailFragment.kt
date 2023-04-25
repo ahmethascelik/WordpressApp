@@ -45,22 +45,10 @@ class PostDetailFragment : BaseFragment(), PostDetailFragmentView {
             postId = it.getString(EXTRA_POST_ID)!!
         }
 
-        initView()
         makeInitialRequests()
         return binding.root
     }
 
-    private fun initView() {
-
-        presenter.defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-
-    }
 
     private fun makeInitialRequests() {
         presenter.getPostWithId(postId)
@@ -71,4 +59,12 @@ class PostDetailFragment : BaseFragment(), PostDetailFragmentView {
         binding.webView.loadHtmlContent(htmlContent)
     }
 
+
+    override fun showDefaultLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideDefaultLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
 }

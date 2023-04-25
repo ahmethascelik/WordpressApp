@@ -1,5 +1,6 @@
 package com.teb.wpcore.ui.screen.main.categories.mvp
 
+import android.view.View
 import com.teb.wpcore.ui.LoadingCallback
 import com.teb.wpcore.ui.PaginationCallback
 import retrofit2.Call
@@ -9,7 +10,13 @@ import retrofit2.Response
 open class BasePresenter<V : BaseView>(val view: V) {
 
 
-    var defaultLoadingCallback: LoadingCallback? = null
+    private var defaultLoadingCallback: LoadingCallback? = { isLoading ->
+        if (isLoading) {
+            view.showDefaultLoading()
+        } else {
+            view.hideDefaultLoading()
+        }
+    }
 
     fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
         makeCall(successCallback = successCallback, paginationCallback = null)

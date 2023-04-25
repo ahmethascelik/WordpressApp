@@ -45,14 +45,6 @@ class CategoriesFragment: BaseFragment(), CategoryListView {
 
     private fun initView() {
 
-        unit.defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-
         adapter.postItemTitleClickListener = { category ->
 
             if (activity is CategoryListFragmentActionListenerActivity) {
@@ -75,5 +67,13 @@ class CategoriesFragment: BaseFragment(), CategoryListView {
         }
     }
 
+
+    override fun showDefaultLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideDefaultLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
 
 }

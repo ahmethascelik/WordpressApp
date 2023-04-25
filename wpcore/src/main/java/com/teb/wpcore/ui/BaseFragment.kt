@@ -14,7 +14,7 @@ import retrofit2.Response
 typealias PaginationCallback = (header_wp_totalpages : Int) -> Unit
 
 
-open class BaseFragment : Fragment(), BaseView {
+abstract class BaseFragment : Fragment(), BaseView {
 
     private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
         val builder = AlertDialog.Builder(this.activity)

@@ -77,14 +77,6 @@ class PostItemListFragment : BaseFragment() , SearchableFragment, PostItemListVi
             startActivity(i)
         }
 
-        presenter.defaultLoadingCallback = { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-
         binding.btnClearSearch.setOnClickListener {
             adapter.setDataList(emptyList())
             presenter.getPostWithPageNum(1)
@@ -132,5 +124,14 @@ class PostItemListFragment : BaseFragment() , SearchableFragment, PostItemListVi
 
     override fun updateSearchQueryInfoNotEmpty(query: String?) {
         binding.txtSearchQuery.text = "\"$query\" için sonuçlar gösteriliyor"
+    }
+
+
+    override fun showDefaultLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideDefaultLoading() {
+        binding.progressBar.visibility = View.GONE
     }
 }
