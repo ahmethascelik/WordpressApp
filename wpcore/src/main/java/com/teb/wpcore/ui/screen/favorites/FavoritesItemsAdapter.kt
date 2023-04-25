@@ -1,11 +1,8 @@
 package com.teb.wpcore.ui.screen.favorites
 
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.htmlEncode
 import androidx.recyclerview.widget.RecyclerView
-import com.teb.wpcore.data.model.Comment
 import com.teb.wpcore.data.model.PostItem
 import com.teb.wpcore.databinding.ListItemPostBinding
 import com.teb.wpcore.ui.screen.main.postitem.OnPostItemClickListener
@@ -23,7 +20,6 @@ class FavoritesItemsAdapter : RecyclerView.Adapter<FavoritesItemsAdapter.PostIte
         notifyDataSetChanged()
 
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
 

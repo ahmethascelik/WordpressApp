@@ -3,11 +3,7 @@ package com.teb.wpcore.ui.screen.postdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-
-
 import android.view.View
-import android.widget.Toast
 import com.teb.wpcore.R
 import com.teb.wpcore.config.WordpressConfig
 import com.teb.wpcore.data.ServiceLocator
@@ -18,7 +14,6 @@ import com.teb.wpcore.ui.BaseActivity
 import com.teb.wpcore.ui.CommentsActivity
 import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.util.loadUrl
-
 
 class PostDetailActivity : BaseActivity() {
 
@@ -48,9 +43,7 @@ class PostDetailActivity : BaseActivity() {
         makeInitialRequest()
     }
 
-
     private fun initViews() {
-
 
         defaultLoadingCallback = { isLoading ->
             if (isLoading) {
@@ -91,7 +84,6 @@ class PostDetailActivity : BaseActivity() {
 
         binding.webView.onLinkClickListener = { url, slug, webview ->
             service.getPostsOfSlug(slug).makeCall { list->
-
                 if(list != null && list.isNotEmpty()){
                     val postItem = list[0]
                     val i = Intent(this, PostDetailActivity::class.java)
@@ -100,8 +92,6 @@ class PostDetailActivity : BaseActivity() {
                 }else{
                     binding.webView.loadUrl(url)
                 }
-
-
             }
 
         }
@@ -109,8 +99,6 @@ class PostDetailActivity : BaseActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun makeInitialRequest() {
-
-
         service.getPostWithId(postId).makeCall { postDetail ->
 
             this.postDetail = postDetail
@@ -121,10 +109,5 @@ class PostDetailActivity : BaseActivity() {
             binding.headerImage.loadUrl(postDetail.imageUrl())
             binding.webView.loadHtmlContent(postDetail.content(), WordpressConfig.INSTANCE!!.HIDE_POSTS_FIRST_IMG)
         }
-
-
     }
-
-
-
 }

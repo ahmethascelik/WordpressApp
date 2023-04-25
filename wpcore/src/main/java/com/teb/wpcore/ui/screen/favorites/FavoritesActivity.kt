@@ -2,9 +2,7 @@ package com.teb.wpcore.ui.screen.favorites
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.persitance.Persistance
@@ -30,7 +28,7 @@ class FavoritesActivity: BaseActivity() {
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val slug = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
-        Log.d("evren", "evren: "+ persistance.getPageViewCount(this))
+
         if (slug != "") {
             favorites = slug
         } else {
@@ -60,8 +58,6 @@ class FavoritesActivity: BaseActivity() {
 
     private fun makeRequest() {
         service.getPostsOfSlugsCommaSeperated(favorites).makeCall { list->
-            Toast.makeText(this, "list"+ list?.size, Toast.LENGTH_SHORT).show()
-            Log.d("favoriteList: ", "${list}")
             adapter.setDataList(list!!)
         }
     }

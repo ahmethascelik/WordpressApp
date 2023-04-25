@@ -41,6 +41,4 @@ class StoragePersistance : Persistance {
 
         return sharedPreferences.getString(KEY_FAVORITE, "").toString()
     }
-
-
 }
