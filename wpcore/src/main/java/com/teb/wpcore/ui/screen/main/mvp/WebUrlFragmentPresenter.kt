@@ -4,17 +4,11 @@ import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.service.PostsService
 import com.teb.wpcore.ui.base.BasePresenter
 
-class WebUrlFragmentPresenter : BasePresenter<WebUrlFragmentView> {
+class WebUrlFragmentPresenter(
+    view: WebUrlFragmentView,
+    val service: PostsService = ServiceLocator.providePostService()
+) : BasePresenter<WebUrlFragmentView>(view) {
 
-
-    val service: PostsService
-
-    constructor(
-        view: WebUrlFragmentView,
-        service: PostsService = ServiceLocator.providePostService()
-    ) : super(view) {
-        this.service = service
-    }
 
     fun getPostsOfSlug(slug: String, url: String) {
         service.getPostsOfSlug(slug).makeCall { list->
