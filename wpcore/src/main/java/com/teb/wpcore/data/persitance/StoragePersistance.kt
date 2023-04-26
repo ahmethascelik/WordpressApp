@@ -2,6 +2,7 @@ package com.teb.wpcore.data.persitance
 
 import android.content.Context
 import android.preference.PreferenceManager
+import android.widget.Toast
 
 class StoragePersistance : Persistance {
     private val KEY_PAGE_COUNT: String = "PAGE_COUNT"
@@ -15,7 +16,6 @@ class StoragePersistance : Persistance {
         val editor = sharedPreferences.edit()
 
         editor.putInt(KEY_PAGE_COUNT, currentVal + 1 )
-
         editor.commit()
 
     }
@@ -27,24 +27,16 @@ class StoragePersistance : Persistance {
     }
 
     override fun addToFavoritePostsList(context: Context, slug: String) {
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val slagVal = getCommaSeperatedSlugsForFavoritePostsList(context)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         val editor = sharedPreferences.edit()
-        val currentSlugs = getCommaSeperatedSlugsForFavoritePostsList(context)
-        val newSlugs = if (currentSlugs.isEmpty()) {
-            slug
-        } else {
-            "$currentSlugs,$slug"
-        }
-        editor.putString(KEY_FAVORITE_POSTS, newSlugs)
+        editor.putString(KEY_FAVORITE_POSTS, slagVal)
         editor.apply()
     }
 
 
     override fun getCommaSeperatedSlugsForFavoritePostsList(context: Context): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        return sharedPreferences.getString(KEY_FAVORITE_POSTS, "") ?: ""
+        return sharedPreferences.getString(KEY_FAVORITE_POSTS, "").toString()
     }
-
-
-
 }

@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() , CategoryListFragmentActionListenerActivity
         initAds()
 
 
-        testService()
+        //testService()
 
 
 

@@ -3,6 +3,7 @@ package com.teb.wpcore.ui.screen.postdetail
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 
 
 import android.view.View
@@ -25,11 +26,8 @@ class PostDetailActivity : BaseActivity() {
     }
 
     private var postDetail: PostDetail? = null
-
     private lateinit var binding: ActivityPostDetailBinding
-
     val service = ServiceLocator.providePostService()
-
     lateinit var postId: String
     val persistance : Persistance = ServiceLocator.providePersistance()
 
@@ -47,7 +45,6 @@ class PostDetailActivity : BaseActivity() {
 
 
     private fun initViews() {
-
 
         defaultLoadingCallback = { isLoading ->
             if (isLoading) {
@@ -77,14 +74,24 @@ class PostDetailActivity : BaseActivity() {
                 intent.type="text/plain"
                 startActivity(Intent.createChooser(intent,"Share To:"))
             } else if (getString((R.string.menu_item_add_favorites)).equals(clickedMenuItem.title)) {
-                //TODO: Add post to addToFavoritePostsList with slug
-                defaultLoadingCallback = {}
-                persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
-                persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
-                val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
-                service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
-                    Toast.makeText(this, "list"+ list?.size, Toast.LENGTH_SHORT).show()
-                }
+
+                // adding example slugs.
+                //defaultLoadingCallback = {}
+                //persistance.addToFavoritePostsList(this, "perfect-roasted-carrots-quick-easy")
+                //persistance.addToFavoritePostsList(this, "chocolate-avocado-frosting-vegan-no-powdered-sugar")
+
+                //val commaSlugs = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+                // service.getPostsOfSlugsCommaSeperated(commaSlugs).makeCall { list->
+                //     Toast.makeText(this, "list"+ list?.size, Toast.LENGTH_SHORT).show()
+                //  }
+
+                //TODO: Add that post to addToFavoritePostsList with its slug than show "Added FavoriteList"
+                persistance.addToFavoritePostsList(this, postDetail?.slug.toString())
+                //Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
+
+                Log.d("TAG", "Post slug: " +  postDetail?.slug.toString())
+                Toast.makeText(this, "SLUG: ${postDetail?.slug.toString()}", Toast.LENGTH_SHORT).show()
+
             }
             true
         }
@@ -100,8 +107,6 @@ class PostDetailActivity : BaseActivity() {
                 }else{
                     binding.webView.loadUrl(url)
                 }
-
-
             }
 
         }
@@ -109,22 +114,13 @@ class PostDetailActivity : BaseActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun makeInitialRequest() {
-
-
         service.getPostWithId(postId).makeCall { postDetail ->
-
             this.postDetail = postDetail
-
             binding.toolbar.title = postDetail.title()
-//            binding.collapsingToolbarLayout.title = postDetail.title()
-
             binding.headerImage.loadUrl(postDetail.imageUrl())
             binding.webView.loadHtmlContent(postDetail.content(), WordpressConfig.INSTANCE!!.HIDE_POSTS_FIRST_IMG)
         }
 
 
     }
-
-
-
 }

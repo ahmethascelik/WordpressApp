@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
+import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityCommentsBinding
 import com.teb.wpcore.databinding.ActivityFavoritesBinding
 import com.teb.wpcore.ui.BaseActivity
@@ -15,22 +16,29 @@ import com.teb.wpcore.ui.CommentsActivity
 class FavoritesActivity: BaseActivity() {
 
     companion object {
-        const val EXTRA_FAVORIES_SLUG: String = "EXTRA_FAVORIES_SLUG"
+        const val EXTRA_FAVORTITES_SLUG: String = "EXTRA_FAVORTITES_SLUG"
     }
 
     private lateinit var binding: ActivityFavoritesBinding
     val adapter = FavoritiesItemsAdapter()
-    lateinit var postId: String
+    lateinit var favoritesSlug: String
 
     val service = ServiceLocator.providePostService()
-
+    val persistance: Persistance = ServiceLocator.providePersistance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        postId = intent.getStringExtra(FavoritesActivity.EXTRA_FAVORIES_SLUG)!!
+        val slug = persistance.getCommaSeperatedSlugsForFavoritePostsList(this)
+
+        favoritesSlug = if (slug != "") {
+            slug
+        } else {
+            intent.getStringExtra(FavoritesActivity.EXTRA_FAVORTITES_SLUG) ?: ""
+        }
+
         initViews()
         makeRequest()
     }
@@ -54,11 +62,9 @@ class FavoritesActivity: BaseActivity() {
     }
 
     private fun makeRequest() {
-        service.getPostsOfSlugsCommaSeperated(postId).makeCall { list->
-            Toast.makeText(this@FavoritesActivity, "list"+ list?.size, Toast.LENGTH_SHORT).show()
-            if (list != null) {
-                adapter.setDataList(list)
-            }
+        service.getPostsOfSlugsCommaSeperated(favoritesSlug).makeCall { list ->
+            adapter.setDataList(list!!)
+            Toast.makeText(this, "list: " + list?.size , Toast.LENGTH_SHORT).show()
         }
     }
 }
