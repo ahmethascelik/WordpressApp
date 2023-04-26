@@ -18,7 +18,7 @@ import retrofit2.Response
 typealias LoadingCallback = (isLoading: Boolean) -> Unit
 typealias TryAgainCallback = () -> Unit
 
-open class BaseActivity : FragmentActivity() {
+abstract class BaseActivity : FragmentActivity(), BaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,76 +38,10 @@ open class BaseActivity : FragmentActivity() {
 
     }
 
-    var defaultLoadingCallback: LoadingCallback? = null
 
-
-    fun <T> Call<T>.makeCall(successCallback: (result: T) -> Unit) {
-
-        if (defaultLoadingCallback != null) {
-            this.makeCall(toggleLoading = defaultLoadingCallback!!,
-                successCallback = successCallback)
-        } else {
-            throw RuntimeException("defaultLoadingCallback != null")
-        }
-
-
-    }
-
-
-    fun <T> Call<T>.makeCall(
-        toggleLoading: LoadingCallback,
-        successCallback: (result: T) -> Unit,
-    ) {
-
-        toggleLoading(true)
-
-        this.enqueue(object : Callback<T> {
-
-            val connectionUtil = ConnectionUtil(this@BaseActivity)
-
-
-            override fun onResponse(
-                call: Call<T>,
-                response: Response<T>,
-            ) {
-                toggleLoading(false)
-
-                val list = response.body()
-
-                list?.let {
-                    successCallback(it)
-                }
-
-
-            }
-
-            override fun onFailure(call: Call<T>, t: Throwable) {
-                toggleLoading(false)
-
-                t.printStackTrace()
-
-                val tryAgainCallback = null
-
-                if (!connectionUtil.isNetworkConnected()) {
-                    showAlertDialog(getString(R.string.network_fail_check_connection), tryAgainCallback)
-
-                }else if(t is JsonSyntaxException){
-                    showAlertDialog(getString(R.string.network_fail_something_bad_happened), tryAgainCallback)
-                }
-                else {
-                    showAlertDialog(getString(R.string.network_fail_try_again_later),
-                        tryAgainCallback)
-
-                }
-
-
-            }
-
-        })
-    }
 
     private fun showAlertDialog(message: String, tryAgainCallback: TryAgainCallback? = null) {
-        val builder = AlertDialog.Builder(this@BaseActivity)
+        val builder = AlertDialog.Builder(this)
         builder.setTitle(WordpressConfig.INSTANCE!!.APP_NAME)
         builder.setMessage(message)
 
@@ -122,6 +56,28 @@ open class BaseActivity : FragmentActivity() {
 
         builder.show()
     }
+
+
+    override fun <T> onServiceFailure(
+        call: Call<T>,
+        t: Throwable,
+        tryAgainCallback: TryAgainCallback?
+    ) {
+        val connectionUtil = ConnectionUtil(this)
+
+        if (!connectionUtil.isNetworkConnected()) {
+            showAlertDialog(getString(R.string.network_fail_check_connection), tryAgainCallback)
+
+        }else if(t is JsonSyntaxException){
+            showAlertDialog(getString(R.string.network_fail_something_bad_happened), tryAgainCallback)
+        }
+        else {
+            showAlertDialog(getString(R.string.network_fail_try_again_later),
+                tryAgainCallback)
+
+        }
+    }
+
 
 }
 
