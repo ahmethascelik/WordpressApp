@@ -1,9 +1,8 @@
-package com.teb.wpcore.ui.screen.main.categories.mvp
+package com.teb.wpcore.ui.base
 
-import com.teb.wpcore.ui.TryAgainCallback
 import retrofit2.Call
 
-public interface BaseView {
+interface BaseView {
     fun showDefaultLoading()
     fun hideDefaultLoading()
     fun <T> onServiceFailure(call: Call<T>, t: Throwable, tryAgainCallback: TryAgainCallback?)

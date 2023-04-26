@@ -2,13 +2,15 @@ package com.teb.wpcore.ui.screen.pagedetail.mvp
 
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
-import com.teb.wpcore.ui.screen.main.categories.mvp.BasePresenter
+import com.teb.wpcore.data.service.PostsService
+import com.teb.wpcore.ui.base.BasePresenter
 
-class PageDetailPresenter(view: PageDetailView) : BasePresenter<PageDetailView>(view) {
+class PageDetailPresenter(view: PageDetailView,
+                          val service: PostsService = ServiceLocator.providePostService()
+) : BasePresenter<PageDetailView>(view) {
 
 
     private lateinit var pageDetail: PostDetail
-    val service = ServiceLocator.providePostService()
     fun getPageWithId(pageId: String) {
         service.getPageWithId(pageId).makeCall { pageDetail ->
 

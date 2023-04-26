@@ -3,10 +3,12 @@ package com.teb.wpcore.ui.screen.main.postitem.mvp
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.data.model.PostItem
-import com.teb.wpcore.ui.screen.main.categories.mvp.BasePresenter
+import com.teb.wpcore.data.service.PostsService
+import com.teb.wpcore.ui.base.BasePresenter
 
-class PostItemListPresenter(view: PostItemListView) : BasePresenter<PostItemListView>(view) {
-    val service = ServiceLocator.providePostService()
+class PostItemListPresenter(view: PostItemListView,
+                            val service: PostsService = ServiceLocator.providePostService()
+) : BasePresenter<PostItemListView>(view) {
 
     fun getPostWithPageNum(currentPage: Int) {
 

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.databinding.ActivityCommentsBinding
+import com.teb.wpcore.ui.base.BaseActivity
 
 class CommentsActivity: BaseActivity() {
 

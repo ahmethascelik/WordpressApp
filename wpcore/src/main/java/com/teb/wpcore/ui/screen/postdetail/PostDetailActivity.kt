@@ -10,8 +10,9 @@ import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityPostDetailBinding
-import com.teb.wpcore.ui.BaseActivity
+
 import com.teb.wpcore.ui.CommentsActivity
+import com.teb.wpcore.ui.base.BaseActivity
 import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.util.loadUrl
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.databinding.FragmentPostDetailBinding
-import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.base.BaseFragment
 import com.teb.wpcore.ui.screen.postdetail.mvp.PostDetailFragmentPresenter
 import com.teb.wpcore.ui.screen.postdetail.mvp.PostDetailFragmentView
 

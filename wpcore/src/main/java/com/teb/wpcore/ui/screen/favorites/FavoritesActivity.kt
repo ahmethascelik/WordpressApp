@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityFavoritesBinding
-import com.teb.wpcore.ui.BaseActivity
+import com.teb.wpcore.ui.base.BaseActivity
+
 
 class FavoritesActivity: BaseActivity() {
 

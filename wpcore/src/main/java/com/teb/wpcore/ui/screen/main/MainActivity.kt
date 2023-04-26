@@ -28,7 +28,8 @@ import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.Category
 import com.teb.wpcore.data.persitance.Persistance
 import com.teb.wpcore.databinding.ActivityMainBinding
-import com.teb.wpcore.ui.BaseActivity
+
+import com.teb.wpcore.ui.base.BaseActivity
 import com.teb.wpcore.ui.screen.favorites.FavoritesActivity
 import com.teb.wpcore.ui.screen.main.categories.CategoriesFragment
 import com.teb.wpcore.ui.screen.main.categories.CategoryListFragmentActionListenerActivity

@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import com.teb.wpcore.data.ServiceLocator
 import com.teb.wpcore.data.model.PostDetail
 import com.teb.wpcore.databinding.FragmentPageDetailBinding
-import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.base.BaseFragment
 import com.teb.wpcore.ui.screen.pagedetail.mvp.PageDetailPresenter
 import com.teb.wpcore.ui.screen.pagedetail.mvp.PageDetailView
 
 class PageDetailFragment : BaseFragment(), PageDetailView {
 
     val presenter = PageDetailPresenter(this)
-
-    private lateinit var pageDetail: PostDetail
 
     companion object{
         private const val EXTRA_PAGE_ID = "EXTRA_PAGE_ID"

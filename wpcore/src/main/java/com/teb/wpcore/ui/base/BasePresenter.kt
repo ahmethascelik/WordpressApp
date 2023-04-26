@@ -1,8 +1,5 @@
-package com.teb.wpcore.ui.screen.main.categories.mvp
+package com.teb.wpcore.ui.base
 
-import android.view.View
-import com.teb.wpcore.ui.LoadingCallback
-import com.teb.wpcore.ui.PaginationCallback
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

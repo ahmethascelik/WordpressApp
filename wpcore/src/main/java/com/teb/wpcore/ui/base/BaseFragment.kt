@@ -1,15 +1,12 @@
-package com.teb.wpcore.ui
+package com.teb.wpcore.ui.base
 
 import android.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.gson.JsonSyntaxException
 import com.teb.wpcore.R
 import com.teb.wpcore.config.WordpressConfig
-import com.teb.wpcore.ui.screen.main.categories.mvp.BaseView
 import com.teb.wpcore.ui.util.ConnectionUtil
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 typealias PaginationCallback = (header_wp_totalpages : Int) -> Unit
 

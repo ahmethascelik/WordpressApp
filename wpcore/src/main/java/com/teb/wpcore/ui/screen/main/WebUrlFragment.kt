@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import com.teb.wpcore.data.model.PostItem
 import com.teb.wpcore.databinding.FragmentWebUrlBinding
-import com.teb.wpcore.ui.BaseFragment
+import com.teb.wpcore.ui.base.BaseFragment
 import com.teb.wpcore.ui.screen.main.mvp.WebUrlFragmentPresenter
 import com.teb.wpcore.ui.screen.main.mvp.WebUrlFragmentView
 import com.teb.wpcore.ui.screen.postdetail.PostDetailActivity
