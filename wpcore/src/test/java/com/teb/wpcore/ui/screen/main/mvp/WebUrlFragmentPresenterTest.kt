@@ -5,6 +5,7 @@ import com.teb.wpcore.base.MockPostService
 import com.teb.wpcore.data.model.PostItem
 import com.teb.wpcore.ui.base.TryAgainCallback
 import okhttp3.Request
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Timeout
 import org.junit.Assert.*
 
@@ -14,10 +15,11 @@ import org.junit.Test
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.RuntimeException
 
 class WebUrlFragmentPresenterTest {
 
-    val mockCall: Call<List<PostItem>?> = object :  MockCall<List<PostItem>?> {
+    var mockCall: Call<List<PostItem>?> = object :  MockCall<List<PostItem>?> {
 
         override fun enqueue(callback: Callback<List<PostItem>?>) {
 
@@ -32,6 +34,7 @@ class WebUrlFragmentPresenterTest {
     private var isShowLoadingCalled: Boolean = false
     var isPostDetailCalled : Boolean = false
     var isopenWebUrlCalled : Boolean = false
+    var showAlertIsCalled: Boolean = false
 
     lateinit var unit : WebUrlFragmentPresenter
 
@@ -57,7 +60,7 @@ class WebUrlFragmentPresenterTest {
             t: Throwable,
             tryAgainCallback: TryAgainCallback?,
         ) {
-            TODO("Not yet implemented")
+            showAlertIsCalled = true
         }
 
     }
@@ -128,6 +131,36 @@ class WebUrlFragmentPresenterTest {
 
         assertEquals(false, isPostDetailCalled)
         assertEquals(true, isopenWebUrlCalled)
+
+        assertEquals(false, showAlertIsCalled)
+
     }
 
+
+
+    @Test
+    fun `when user clicks weblink, if service throws an error, view should show alert`() {
+        //mocking
+        mockCall = object :  MockCall<List<PostItem>?> {
+
+            override fun enqueue(callback: Callback<List<PostItem>?>) {
+
+                val throwable = RuntimeException("call error")
+                callback.onFailure(this, throwable)
+
+            }
+        }
+
+
+        //execute
+        val url = "https://minimalistbaker.com/strawberry-matcha-chia-pudding/"
+        val slug = "strawberry-matcha-chia-pudding"
+        unit.getPostsOfSlug(slug = slug, url = url)
+
+        //assertions
+
+        assertEquals(false, isPostDetailCalled)
+        assertEquals(false, isopenWebUrlCalled)
+        assertEquals(true, showAlertIsCalled)
+    }
 }
